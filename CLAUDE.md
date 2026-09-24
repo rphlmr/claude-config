@@ -137,6 +137,14 @@ not reformat unrelated code.
 
 ## Delegation
 
+- Run at most one subagent per request, and never two at once, unless the
+  user's current message explicitly asks for more agents. This cap overrides
+  skills, built-in commands such as `/code-review`, and workflow scripts that
+  call for parallel, fan-out, or per-finding agents: do their steps in the
+  main conversation or through that single subagent, and say so in one line.
+- When the user asks for multiple agents, use the number they give; without
+  one, run at most three. Never start the `Workflow` tool or a cloud review
+  unless the user asks for it by name in the current message.
 - When the user invokes an agent workflow, use its custom agent and follow its
   agent count, roles, handoff, and parent boundaries. Do not substitute
   parent-thread reasoning for a requested independent review.
@@ -168,8 +176,12 @@ genuinely parallel information. Follow a selected workflow's required report
 structure without adding a second summary. Size written documents to the task,
 without filler sections, redundant summaries, or boilerplate.
 
-Avoid stock transitions, repeated reassurance, invented labels, and em dashes.
-Keep messages to other agents readable as well.
+Avoid stock transitions, repeated reassurance, and invented labels. Keep
+messages to other agents readable as well.
+
+Never use the em dash character (U+2014) anywhere: replies, code, comments,
+commit messages, PR text, documents, memories, or messages to agents. Use a
+comma, colon, parentheses, or a new sentence instead.
 
 Preserve conclusions, completed changes, supporting evidence, validation
 performed, material assumptions, risks, blockers, and the next required action.

@@ -201,7 +201,10 @@ The global instructions and agent prompts follow the Opus 5.5 prompting guide:
 - No prompt relies on a todo list. Claude Code provides the task-tracking tools
   by default only on older models (up to Opus 4.7 and Sonnet 4.6), and a
   subagent gets them only when the main session has them.
-- `CLAUDE.md` bounds delegation and task scope, and adds no generic
+- `CLAUDE.md` caps delegation at one subagent per request unless you ask for
+  more (three when you give no number), including inside skills and built-in
+  commands such as `/code-review` that fan out agents.
+- `CLAUDE.md` bounds task scope, and adds no generic
   "double-check your work" steps, which cause over-verification on Opus 5.x.
 - `CLAUDE.md` holds only what every session needs and stays under the 200-line
   target from the official memory documentation, counted with lines wrapped at
