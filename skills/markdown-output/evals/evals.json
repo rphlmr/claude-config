@@ -1,0 +1,17 @@
+{
+  "skill_name": "markdown-output",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Give me a README section in markdown I can paste, explaining how to install the CLI with npm and run it, with a bash example",
+      "expected_output": "One intact copyable block whose outer fence is longer than the inner bash fence, so the inner fence survives copying. Headings and lists inside are unescaped and structurally valid.",
+      "files": []
+    },
+    {
+      "id": 2,
+      "prompt": "write a prompt I can paste into another Claude session to continue refactoring the auth module; it should include a code snippet of the current middleware signature",
+      "expected_output": "The prompt is returned as one copyable block with balanced fences, the inner code fence nested under a longer outer fence, and nothing escaped merely to make the outer response render.",
+      "files": []
+    }
+  ]
+}

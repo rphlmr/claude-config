@@ -1,0 +1,19 @@
+{
+  "skill_name": "release-commit-message",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "I need one commit message for release please that covers everything I staged",
+      "setup": "In an empty directory, run `bash <skill-dir>/evals/files/make-repo.sh staged` and start the run from that directory.",
+      "expected_output": "Plain text with no fences or commentary. A `feat` header for the new `--dry-run` flag, then an additional `fix` message at the bottom for parsing days as UTC dates, separated by a blank line, with no prose after the first additional message. Descriptions are imperative and lowercase, and the README change is folded into the feature entry rather than listed separately.",
+      "files": []
+    },
+    {
+      "id": 2,
+      "prompt": "write the release-please commit message for my changes",
+      "setup": "In an empty directory, run `bash <skill-dir>/evals/files/make-repo.sh unstaged-only` and start the run from that directory.",
+      "expected_output": "Exactly `No staged diff available.` Nothing is staged or committed.",
+      "files": []
+    }
+  ]
+}
