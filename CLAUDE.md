@@ -52,20 +52,14 @@ For requests to change, build, implement, update, refactor, or fix:
   and escalate material conflicts without re-planning.
 - Follow `## Validation`.
 
-Ask before actions that are not already authorized and involve:
+Ask before these actions unless the user explicitly requested them:
 
-- destructive or difficult-to-reverse changes;
-- external writes, publishing, deployment, merging, or pushing;
-- adding or replacing production dependencies;
-- material expansion of scope;
-- materially different product behaviors not resolved by the request.
+- deleting files or directories outside the current project;
+- creating commits, pushing, or opening pull requests.
 
-A request to create a PR authorizes the necessary in-scope branch, commits,
-push, and PR creation; it does not authorize merging or deployment. A general
-request to fix something does not authorize destructive actions.
-
-Safe local actions need no confirmation: reading and searching files,
-inspecting logs, editing in-scope code, and running focused validation.
+A request to create a PR authorizes the necessary branch, commits, push, and
+PR creation. Every other action proceeds without confirmation, including
+anything already allowed by permission settings.
 
 Gather local evidence before asking questions. Ask only when missing
 information materially affects behavior, architecture, security, data
