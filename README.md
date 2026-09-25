@@ -2,8 +2,6 @@
 
 Personal Claude Code skills, custom agents, global instructions, and global rules
 tracked in Git.
-It is the Claude Code counterpart of [rphlmr/codex](https://github.com/rphlmr/codex),
-forked from its `9d8fc63` revision.
 
 This repository is the source of truth for:
 
@@ -120,9 +118,8 @@ exclusion patterns assume the clone directory is named `claude-config`.
 | `/state-machines`            | Recommend and sketch explicit state machines for features driven by state transitions.        | Yes                  | None; preloaded into `future-architect`                                                   |
 | `/verify-implementation`     | Independently verify completed work against the approved plan and acceptance criteria.         | No                   | `verifier`                                                                                |
 
-Skills that Claude can't invoke set `disable-model-invocation: true`, the
-counterpart of Codex's `allow_implicit_invocation: false`. Type the command at the
-start of a message to run them, for example `/implement-plan`.
+Skills that Claude can't invoke set `disable-model-invocation: true`. Type the
+command at the start of a message to run them, for example `/implement-plan`.
 
 The repository-local `release-commit-message` skill lives in
 `.claude/skills/` and loads only in sessions inside this repository.
@@ -158,22 +155,22 @@ Reviewed on September 24, 2026 against the official
 [effort](https://platform.claude.com/docs/en/build-with-claude/effort), and
 [Prompting Claude Opus 5.5](https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/prompting-claude-opus-5-5).
 
-| Codex role          | Codex model        | Claude model      | Claude effort |
-| ------------------- | ------------------ | ----------------- | ------------- |
-| `implementer`       | GPT-6 Sol, medium  | `claude-opus-5-5` | `medium`      |
-| `future_architect`  | GPT-6 Sol, medium  | `claude-opus-5-5` | `high`        |
-| `verifier`          | GPT-6 Sol, medium  | `claude-opus-5-5` | `high`        |
-| `light_implementer` | GPT-6 Luna, xhigh  | `claude-sonnet-5` | `medium`      |
-| `pr_changelog`      | GPT-6 Luna, medium | `claude-sonnet-5` | `medium`      |
-| `commit_message`    | GPT-6 Luna, low    | `claude-sonnet-5` | `low`         |
+| Agent               | Model             | Effort   |
+| ------------------- | ----------------- | -------- |
+| `implementer`       | `claude-opus-5-5` | `medium` |
+| `future-architect`  | `claude-opus-5-5` | `high`   |
+| `verifier`          | `claude-opus-5-5` | `high`   |
+| `light-implementer` | `claude-sonnet-5` | `medium` |
+| `pr-changelog`      | `claude-sonnet-5` | `medium` |
+| `commit-message`    | `claude-sonnet-5` | `low`    |
 
 - Models are pinned by full ID, not the `opus` or `sonnet` aliases, because the
   prompts are tuned for these versions and an alias moves when a new model ships.
-- Sonnet 5 takes the Luna roles as the lighter, cheaper model. Haiku 4.5 has no
+- Sonnet 5 takes the lighter roles as the cheaper model. Haiku 4.5 has no
   effort control and retires no sooner than October 15, 2026.
-- Effort levels aren't carried over from Codex: the effort scale is calibrated
-  per model, so the same level name means a different amount of thinking on
-  each model. Each level follows the official guidance instead. `implementer`
+- The effort scale is calibrated per model, so the same level name means a
+  different amount of thinking on each model. Each level follows the official
+  guidance. `implementer`
   starts at `medium`, Opus 5.5's default, which matched or beat Opus 5 at
   `high` on agentic coding. `verifier` and `future-architect` use `high`, the
   level listed for complex reasoning. `light-implementer` and `pr-changelog` use
@@ -211,10 +208,6 @@ The global instructions and agent prompts follow the Opus 5.5 prompting guide:
   80 columns. TypeScript and React rules live in `rules/` with `paths:`
   frontmatter, so they load only when Claude reads matching files, and the state
   machine and copyable-Markdown guidance are skills.
-
-The Codex-specific package-manager proxy workaround was removed from the
-implementer and verifier prompts; it compensated for variables injected by
-Codex's network proxy.
 
 ### State machine preference
 
