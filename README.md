@@ -88,6 +88,10 @@ exclusion patterns assume the clone directory is named `claude-config`.
 │   ├── react.md
 │   └── typescript.md
 ├── skills/
+│   ├── apple-hig/
+│   │   ├── SKILL.md
+│   │   ├── evals/
+│   │   └── scripts/
 │   ├── commit-message/
 │   │   ├── SKILL.md
 │   │   └── evals/
@@ -108,6 +112,7 @@ exclusion patterns assume the clone directory is named `claude-config`.
 
 | Skill                        | Purpose                                                                                        | Claude can invoke it | Custom agent                                                                              |
 | ---------------------------- | ---------------------------------------------------------------------------------------------- | -------------------- | ----------------------------------------------------------------------------------------- |
+| `/apple-hig`                 | Answer iOS, iPadOS and macOS design questions from Apple's latest HIG text.                    | Yes                  | None                                                                                      |
 | `/commit-message`            | Generate one Conventional Commit message from the staged diff.                                 | Yes                  | `commit-message`                                                                          |
 | `/final-implementation-plan` | Finalize a completed plan mode result into a self-contained implementation handoff.            | No                   | None                                                                                      |
 | `/future-architect-mode`     | Independently review an idea, design, architecture, or implementation plan.                    | No                   | `future-architect`                                                                        |
@@ -217,6 +222,20 @@ TypeScript, and an in-house XState-style machine with no third-party library for
 SwiftUI. `CLAUDE.md` points review and planning work at the skill, and
 `future-architect` preloads it. A recommendation never adds XState or
 restructures code without approval.
+
+### Apple Human Interface Guidelines
+
+The `apple-hig` skill reads Apple's HIG for iOS, iPadOS and macOS from the JSON
+behind developer.apple.com. `scripts/hig.py` (Python 3, standard library only)
+finds pages, prints a page for one platform or one section, greps the text,
+lists Apple's dated revisions, and prints a catalog grouped as Apple groups the
+pages.
+
+The script keeps the converted pages in a cache outside this repository
+(`~/Library/Caches/apple-hig` on macOS, `HIG_CACHE_DIR` to override) and
+downloads them again once the cache is a week old, so the skill follows
+Apple's latest text without storing a copy of it here. Offline, it keeps using
+the last copy.
 
 ## Source of truth
 
