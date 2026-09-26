@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.1.0](https://github.com/rphlmr/claude-config/compare/v2.0.0...v2.1.0) (2026-09-26)
+
+
+### Features
+
+* **skills:** add apple-hig skill for iOS, iPadOS and macOS design guidance ([80f93c2](https://github.com/rphlmr/claude-config/commit/80f93c2b0b68a651f55b09d1cd40273ae52ac250))
+
 ## [2.0.0](https://github.com/rphlmr/claude-config/compare/v1.0.0...v2.0.0) (2026-09-25)
 
 
