@@ -1,5 +1,20 @@
 # Changelog
 
+## [2.1.0](https://github.com/rphlmr/claude-config/compare/v2.0.0...v2.1.0) (2026-09-28)
+
+
+### Features
+
+* **agents:** add super-implementer on opus 5.5 for hard and high-risk plans ([79ddd65](https://github.com/rphlmr/claude-config/commit/79ddd65f847bded46df6a96db4261530b87e8a2d))
+* **agents:** guide implementers on shared targets, swift concurrency and state machines ([79ddd65](https://github.com/rphlmr/claude-config/commit/79ddd65f847bded46df6a96db4261530b87e8a2d))
+* **agents:** move implementer and light-implementer to sonnet 5.5 ([79ddd65](https://github.com/rphlmr/claude-config/commit/79ddd65f847bded46df6a96db4261530b87e8a2d))
+* **claude-md:** suggest manual workflow commands at the right moment ([d222623](https://github.com/rphlmr/claude-config/commit/d222623cd574b68a148d5b3e7ca8b1eebc0c87db))
+* **final-implementation-plan:** add an implementation agent section to final plans ([79ddd65](https://github.com/rphlmr/claude-config/commit/79ddd65f847bded46df6a96db4261530b87e8a2d))
+* **implement-plan:** prefer the stronger agent when unclear and report the selection ([79ddd65](https://github.com/rphlmr/claude-config/commit/79ddd65f847bded46df6a96db4261530b87e8a2d))
+* **implement-plan:** route security, data, type-level and hard tasks to super-implementer ([79ddd65](https://github.com/rphlmr/claude-config/commit/79ddd65f847bded46df6a96db4261530b87e8a2d))
+* **skills:** add apple-hig skill for iOS, iPadOS and macOS design guidance ([80f93c2](https://github.com/rphlmr/claude-config/commit/80f93c2b0b68a651f55b09d1cd40273ae52ac250))
+* **verifier:** flag missed targets, silenced concurrency diagnostics and untested transitions ([79ddd65](https://github.com/rphlmr/claude-config/commit/79ddd65f847bded46df6a96db4261530b87e8a2d))
+
 ## [2.0.0](https://github.com/rphlmr/claude-config/compare/v1.0.0...v2.0.0) (2026-09-25)
 
 
