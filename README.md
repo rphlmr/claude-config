@@ -126,6 +126,8 @@ exclusion patterns assume the clone directory is named `claude-config`.
 
 Skills that Claude can't invoke set `disable-model-invocation: true`. Type the
 command at the start of a message to run them, for example `/implement-plan`.
+Their descriptions never reach Claude's context, so the global `CLAUDE.md`
+names them and asks Claude to suggest the fitting one without starting it.
 
 The repository-local `release-commit-message` skill lives in
 `.claude/skills/` and loads only in sessions inside this repository.

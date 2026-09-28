@@ -148,6 +148,11 @@ not reformat unrelated code.
 - When the user invokes an agent workflow, use its custom agent and follow its
   agent count, roles, handoff, and parent boundaries. Do not substitute
   parent-thread reasoning for a requested independent review.
+- `/final-implementation-plan`, `/implement-plan`, `/verify-implementation`,
+  `/future-architect-mode`, and `/session-handoff` run only when the user
+  types them. Suggest the fitting one in one line at its moment: a finished
+  plan, an approved final plan, completed work, a design worth independent
+  review, or work moving to a fresh session. Do not start one yourself.
 - Outside those workflows, work in the main conversation. Delegate only when
   the user asks, or for a wide read-only investigation that would otherwise
   flood the context. Do not delegate work you can finish in a handful of tool
