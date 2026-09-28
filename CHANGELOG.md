@@ -1,5 +1,15 @@
 # Changelog
 
+## [2.2.0](https://github.com/rphlmr/claude-config/compare/v2.1.0...v2.2.0) (2026-09-28)
+
+
+### Features
+
+* **claude-md:** make replies scannable with short blocks, bold key points, recommendations and diagrams ([75b46cb](https://github.com/rphlmr/claude-config/commit/75b46cb7ada68ea00a36ca9f03ea5a662d1b2589))
+* **claude-md:** offer two or three variants with a recommendation for ui mockups ([75b46cb](https://github.com/rphlmr/claude-config/commit/75b46cb7ada68ea00a36ca9f03ea5a662d1b2589))
+* **implement-plan:** route state machines and unchecked concurrency to super-implementer ([75b46cb](https://github.com/rphlmr/claude-config/commit/75b46cb7ada68ea00a36ca9f03ea5a662d1b2589))
+* **super-implementer:** add persistence, SQL, and schema safety rules ([5808bf1](https://github.com/rphlmr/claude-config/commit/5808bf1760fff62ba9c88653510ed4343b455e35))
+
 ## [2.1.0](https://github.com/rphlmr/claude-config/compare/v2.0.0...v2.1.0) (2026-09-28)
 
 
