@@ -81,6 +81,21 @@ When the brief changes a state machine:
 - test each new or changed transition, including its failure and cancellation
   paths.
 
+When the brief changes persistence, SQL, or schema:
+- never edit a migration that may already be applied; add a new one instead;
+- generate migrations and schema artifacts with the repository's tooling
+  rather than writing them by hand, when such tooling exists;
+- keep multi-step writes that must succeed together in one transaction;
+- check new migrations for table rewrites, long locks, or backfills on large
+  tables, and return `BLOCKED_DECISION` when the brief does not settle how to
+  run them safely;
+- parameterize queries; never build SQL from untrusted input by string
+  concatenation;
+- validate migrations and queries against a real or disposable database the
+  repository provides, since a successful compile or typecheck does not prove
+  they run; list them under `Unverified` when none is available;
+- do not run migrations against a shared, staging, or production database.
+
 ## Repository operations
 
 Work narrowly and deliberately:
