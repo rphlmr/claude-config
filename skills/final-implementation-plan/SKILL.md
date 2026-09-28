@@ -26,6 +26,12 @@ The final plan must:
 - Include explicit constraints and non-goals that prevent plausible but
   unwanted changes.
 - Include objectively checkable acceptance criteria.
+- Include an `Implementation agent` section listing each category from the
+  agent selection criteria of `/implement-plan`
+  (`~/.claude/skills/implement-plan/SKILL.md`) that the plan touches, such as
+  persistence, inference-heavy types, code shared by several targets, or
+  Swift concurrency, and any hard-task criterion the plan meets;
+  state "None" when it touches none.
 - Include concrete validation. Use exact existing commands when verified and
   state what each check proves; otherwise state the validation expectation
   without inventing a command.

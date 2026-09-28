@@ -1,8 +1,8 @@
 ---
-name: implementer
-description: High-capability, execution-only implementation agent for an already-refined engineering plan with contract-heavy changes to public APIs, code shared across targets or runtimes, concurrency, state machines, or build infrastructure. Use only when the /implement-plan workflow selects it or the user explicitly names it.
-model: claude-sonnet-5-5
-effort: xhigh
+name: super-implementer
+description: Highest-capability, execution-only implementation agent for an approved engineering plan that is hard or touches authentication, security, persistence, data migrations, or inference-heavy TypeScript types. Use only when the /implement-plan workflow selects it or the user explicitly names it.
+model: claude-opus-5-5
+effort: medium
 disallowedTools: Agent, WebFetch, WebSearch
 ---
 

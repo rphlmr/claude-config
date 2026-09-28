@@ -83,6 +83,7 @@ exclusion patterns assume the clone directory is named `claude-config`.
 │   ├── implementer.md
 │   ├── light-implementer.md
 │   ├── pr-changelog.md
+│   ├── super-implementer.md
 │   └── verifier.md
 ├── rules/
 │   ├── react.md
@@ -110,18 +111,18 @@ exclusion patterns assume the clone directory is named `claude-config`.
 
 ## Included skills
 
-| Skill                        | Purpose                                                                                        | Claude can invoke it | Custom agent                                                                              |
-| ---------------------------- | ---------------------------------------------------------------------------------------------- | -------------------- | ----------------------------------------------------------------------------------------- |
-| `/apple-hig`                 | Answer iOS, iPadOS and macOS design questions from Apple's latest HIG text.                    | Yes                  | None                                                                                      |
-| `/commit-message`            | Generate one Conventional Commit message from the staged diff.                                 | Yes                  | `commit-message`                                                                          |
-| `/final-implementation-plan` | Finalize a completed plan mode result into a self-contained implementation handoff.            | No                   | None                                                                                      |
-| `/future-architect-mode`     | Independently review an idea, design, architecture, or implementation plan.                    | No                   | `future-architect`                                                                        |
-| `/implement-plan`            | Execute a complete approved plan with one implementation agent.                                | No                   | Routes contract-heavy work to `implementer`; narrow mechanical work to `light-implementer` |
-| `/markdown-output`           | Return copyable Markdown as one intact block with balanced fences.                             | Yes                  | None                                                                                      |
-| `/pr-changelog`              | Generate PR/MR text, review prep, release notes, or a changelog from committed branch changes. | Yes                  | `pr-changelog`                                                                            |
-| `/session-handoff`           | Create a self-contained prompt for continuing established work in a fresh Claude Code session. | No                   | None                                                                                      |
-| `/state-machines`            | Recommend and sketch explicit state machines for features driven by state transitions.        | Yes                  | None; preloaded into `future-architect`                                                   |
-| `/verify-implementation`     | Independently verify completed work against the approved plan and acceptance criteria.         | No                   | `verifier`                                                                                |
+| Skill                        | Purpose                                                                                        | Claude can invoke it | Custom agent                                                                                                                                                |
+| ---------------------------- | ---------------------------------------------------------------------------------------------- | -------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `/apple-hig`                 | Answer iOS, iPadOS and macOS design questions from Apple's latest HIG text.                    | Yes                  | None                                                                                                                                                        |
+| `/commit-message`            | Generate one Conventional Commit message from the staged diff.                                 | Yes                  | `commit-message`                                                                                                                                            |
+| `/final-implementation-plan` | Finalize a completed plan mode result into a self-contained implementation handoff.            | No                   | None                                                                                                                                                        |
+| `/future-architect-mode`     | Independently review an idea, design, architecture, or implementation plan.                    | No                   | `future-architect`                                                                                                                                          |
+| `/implement-plan`            | Execute a complete approved plan with one implementation agent.                                | No                   | Routes hard, security, data and type-level work to `super-implementer`, contract-heavy work to `implementer`, narrow mechanical work to `light-implementer` |
+| `/markdown-output`           | Return copyable Markdown as one intact block with balanced fences.                             | Yes                  | None                                                                                                                                                        |
+| `/pr-changelog`              | Generate PR/MR text, review prep, release notes, or a changelog from committed branch changes. | Yes                  | `pr-changelog`                                                                                                                                              |
+| `/session-handoff`           | Create a self-contained prompt for continuing established work in a fresh Claude Code session. | No                   | None                                                                                                                                                        |
+| `/state-machines`            | Recommend and sketch explicit state machines for features driven by state transitions.         | Yes                  | None; preloaded into `future-architect`                                                                                                                     |
+| `/verify-implementation`     | Independently verify completed work against the approved plan and acceptance criteria.         | No                   | `verifier`                                                                                                                                                  |
 
 Skills that Claude can't invoke set `disable-model-invocation: true`. Type the
 command at the start of a message to run them, for example `/implement-plan`.
@@ -131,14 +132,15 @@ The repository-local `release-commit-message` skill lives in
 
 The repository provides these custom agents:
 
-| Definition                    | Agent name          | Model and effort        | Tools                                               |
-| ----------------------------- | ------------------- | ----------------------- | --------------------------------------------------- |
-| `agents/commit-message.md`    | `commit-message`    | Claude Sonnet 5, low    | `Bash` only                                         |
-| `agents/future-architect.md`  | `future-architect`  | Claude Opus 5.5, high   | Inherited, minus file edits and `Agent`             |
-| `agents/implementer.md`       | `implementer`       | Claude Opus 5.5, medium | Inherited, minus `Agent`, `WebFetch`, `WebSearch`   |
-| `agents/light-implementer.md` | `light-implementer` | Claude Sonnet 5, medium | Inherited, minus `Agent`, `WebFetch`, `WebSearch`   |
-| `agents/pr-changelog.md`      | `pr-changelog`      | Claude Sonnet 5, medium | `Bash`, `Read`, `Grep`, `Glob`                      |
-| `agents/verifier.md`          | `verifier`          | Claude Opus 5.5, high   | Inherited, minus file edits, web tools, and `Agent` |
+| Definition                    | Agent name          | Model and effort          | Tools                                               |
+| ----------------------------- | ------------------- | ------------------------- | --------------------------------------------------- |
+| `agents/commit-message.md`    | `commit-message`    | Claude Sonnet 5, low      | `Bash` only                                         |
+| `agents/future-architect.md`  | `future-architect`  | Claude Opus 5.5, high     | Inherited, minus file edits and `Agent`             |
+| `agents/implementer.md`       | `implementer`       | Claude Sonnet 5.5, xhigh  | Inherited, minus `Agent`, `WebFetch`, `WebSearch`   |
+| `agents/light-implementer.md` | `light-implementer` | Claude Sonnet 5.5, medium | Inherited, minus `Agent`, `WebFetch`, `WebSearch`   |
+| `agents/pr-changelog.md`      | `pr-changelog`      | Claude Sonnet 5, medium   | `Bash`, `Read`, `Grep`, `Glob`                      |
+| `agents/super-implementer.md` | `super-implementer` | Claude Opus 5.5, medium   | Inherited, minus `Agent`, `WebFetch`, `WebSearch`   |
+| `agents/verifier.md`          | `verifier`          | Claude Opus 5.5, high     | Inherited, minus file edits, web tools, and `Agent` |
 
 No agent can spawn subagents, which keeps each workflow at its documented agent
 count. Agents inherit the invoking session's permission mode; tool lists and the
@@ -160,30 +162,33 @@ Reviewed on September 24, 2026 against the official
 [effort](https://platform.claude.com/docs/en/build-with-claude/effort), and
 [Prompting Claude Opus 5.5](https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/prompting-claude-opus-5-5).
 
-| Agent               | Model             | Effort   |
-| ------------------- | ----------------- | -------- |
-| `implementer`       | `claude-opus-5-5` | `medium` |
-| `future-architect`  | `claude-opus-5-5` | `high`   |
-| `verifier`          | `claude-opus-5-5` | `high`   |
-| `light-implementer` | `claude-sonnet-5` | `medium` |
-| `pr-changelog`      | `claude-sonnet-5` | `medium` |
-| `commit-message`    | `claude-sonnet-5` | `low`    |
+| Agent               | Model               | Effort   |
+| ------------------- | ------------------- | -------- |
+| `super-implementer` | `claude-opus-5-5`   | `medium` |
+| `future-architect`  | `claude-opus-5-5`   | `high`   |
+| `verifier`          | `claude-opus-5-5`   | `high`   |
+| `implementer`       | `claude-sonnet-5-5` | `xhigh`  |
+| `light-implementer` | `claude-sonnet-5-5` | `medium` |
+| `pr-changelog`      | `claude-sonnet-5`   | `medium` |
+| `commit-message`    | `claude-sonnet-5`   | `low`    |
 
 - Models are pinned by full ID, not the `opus` or `sonnet` aliases, because the
   prompts are tuned for these versions and an alias moves when a new model ships.
-- Sonnet 5 takes the lighter roles as the cheaper model. Haiku 4.5 has no
-  effort control and retires no sooner than October 15, 2026.
+- Sonnet 5.5 runs `implementer` and `light-implementer`, and Sonnet 5 the
+  other lighter roles, as the cheaper models. Haiku 4.5 has no effort control
+  and retires no sooner than October 15, 2026.
 - The effort scale is calibrated per model, so the same level name means a
-  different amount of thinking on each model. Each level follows the official
-  guidance. `implementer`
-  starts at `medium`, Opus 5.5's default, which matched or beat Opus 5 at
-  `high` on agentic coding. `verifier` and `future-architect` use `high`, the
-  level listed for complex reasoning. `light-implementer` and `pr-changelog` use
-  `medium`, Sonnet 5's cost-saving step-down, and `commit-message` uses `low`
-  for a short, latency-sensitive task.
+  different amount of thinking on each model. `super-implementer` starts at
+  `medium`, Opus 5.5's default, which matched or beat Opus 5 at `high` on
+  agentic coding. `implementer` runs Sonnet 5.5 at `xhigh` to cover
+  contract-heavy work at a lower price than Opus. `verifier` and
+  `future-architect` use `high`, the level listed for complex reasoning.
+  `light-implementer` uses `medium`, Sonnet 5.5's recommended start for agentic
+  coding, `pr-changelog` uses `medium`, Sonnet 5's cost-saving step-down, and
+  `commit-message` uses `low` for a short, latency-sensitive task.
 - The Opus 5.5 guide reserves `xhigh` and `max` for work where you've measured
-  a quality gain. Raise an agent only after an effort sweep on your own tasks
-  shows one.
+  a quality gain. Confirm the `implementer` setting with an effort sweep on
+  your own tasks, and raise another agent only after a sweep shows a gain.
 - `effort` in agent frontmatter overrides the session's effort level while the
   agent runs, but not the `CLAUDE_CODE_EFFORT_LEVEL` environment variable. Leave
   that variable unset, or every agent runs at its value.
@@ -197,8 +202,8 @@ The global instructions and agent prompts follow the Opus 5.5 prompting guide:
   asks the model to think harder or to write its reasoning into the response.
   The latter can be declined with the `reasoning_extraction` refusal category.
 - A subagent's final message is its result, so an Opus 5.5 agent that ends a turn
-  with a progress summary hands back unfinished work. `implementer`,
-  `light-implementer`, and `verifier` name the early stops to avoid and the
+  with a progress summary hands back unfinished work. The three implementer
+  agents and `verifier` name the early stops to avoid and the
   stops that are wanted, as the guide recommends for unattended runs.
 - No prompt relies on a todo list. Claude Code provides the task-tracking tools
   by default only on older models (up to Opus 4.7 and Sonnet 4.6), and a

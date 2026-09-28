@@ -74,34 +74,67 @@ not established during planning.
 ## Select the implementation agent
 
 Select the implementation agent from the approved plan before spawning it.
-`light-implementer` is the lighter executor for narrow mechanical work.
+`super-implementer` is the strongest executor for hard work, `implementer` the
+default for contract-heavy work, and `light-implementer` the lighter executor
+for narrow mechanical work.
+
+Use `super-implementer` when the plan changes any of:
+
+- authentication or security;
+- persistence or data migrations;
+- conditional, recursive, nominal, or inference-heavy TypeScript types, or
+  public types whose inference the plan's acceptance criteria assert.
+
+Also use `super-implementer` when the plan shows the task is hard:
+
+- its correctness depends on several interacting subsystems at once, such as
+  concurrency with persistence, or a state machine with workers and
+  cancellation;
+- it calls for new algorithmic or correctness-critical logic with no existing
+  pattern in the repository to follow;
+- `implementer` already attempted the same work and returned it incomplete, or
+  a verifier failed it on correctness rather than on a named, exact fix.
 
 Use `implementer` when the plan changes any of:
 
-- exported or public TypeScript APIs;
-- conditional, recursive, nominal, or inference-heavy types;
-- emitted declarations;
+- exported or public APIs of a package or module;
+- emitted declarations or a package's exports map;
 - shared monorepo contracts;
+- code shared by several targets, such as platform apps and their extensions,
+  or runtime adapters;
+- Swift concurrency: actor isolation, `Sendable` conformance, or main-actor
+  boundaries;
+- state machines, workers, or async lifecycles with cancellation;
+- pinned dependencies, artifacts, or compatibility matrices;
 - compatibility or migration surfaces;
-- authentication, security, persistence, or build infrastructure.
+- build infrastructure.
 
 Use `light-implementer` for:
 
 - localized runtime behavior;
 - mechanical refactors with exact instructions;
-- narrow UI changes;
+- narrow UI changes within one target;
 - documentation;
 - repetitive test additions;
 - corrections where a verifier has already identified the exact symbols and
   expected types.
 
-The `implementer` criteria take precedence when categories overlap. Honor an
-explicit user request for either implementation agent.
+When the plan has an `Implementation agent` section, check its categories
+against the code the plan changes and use them. When categories overlap, the
+stronger agent's criteria take precedence: `super-implementer`, then
+`implementer`. When the plan leaves unclear whether a stronger agent's criteria
+apply, choose the stronger agent. Honor an explicit user request for any
+implementation agent.
+
+Before spawning, state in one line the selected agent and the criterion that
+matched.
 
 Spawn exactly one selected implementation agent with the Agent tool, as a new
 subagent of that type rather than a fork of this conversation:
 
-- `implementer` for the contract-heavy and high-risk categories above;
+- `super-implementer` for the security, data, type-level, and hard-task
+  categories above;
+- `implementer` for the contract-heavy categories above;
 - `light-implementer` for the narrow and mechanical categories above.
 
 Do not spawn additional implementation, exploration, planning, review, or
@@ -171,6 +204,7 @@ When the implementation agent completes:
 - if any required report element is absent, send the same implementation agent
   a targeted follow-up with `SendMessage` identifying the missing report
   elements, and wait for its corrected completion report before proceeding;
+- report the implementation agent used and the criterion that selected it;
 - report the implementation outcome;
 - include acceptance-criterion results;
 - include validation commands and results;

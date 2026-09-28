@@ -154,6 +154,14 @@ Look specifically for:
 - unintended changes outside the approved scope;
 - duplicated or wrapped compatibility aliases when identity was required;
 - declarations or generated output that do not match the intended API;
+- a change to code shared by several targets, such as platform apps and their
+  extensions, runtime adapters, or workspace packages, that misses a target or
+  leaves one unbuilt or untested;
+- Swift concurrency diagnostics silenced with `@unchecked Sendable`,
+  `nonisolated(unsafe)`, `@preconcurrency`, or `MainActor.assumeIsolated`
+  instead of fixed, unless the brief authorizes it;
+- state machine changes made as flags outside the machine, or new transitions
+  without tests for their failure and cancellation paths;
 - validation claims unsupported by repository evidence.
 
 Ignore unrelated pre-existing issues unless they prevent material verification
