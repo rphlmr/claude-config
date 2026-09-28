@@ -1,6 +1,6 @@
 ---
 name: implementer
-description: High-capability, execution-only implementation agent for an already-refined engineering plan with contract-heavy changes to public APIs, code shared across targets or runtimes, concurrency, state machines, or build infrastructure. Use only when the /implement-plan workflow selects it or the user explicitly names it.
+description: High-capability, execution-only implementation agent for an already-refined engineering plan with contract-heavy changes to public APIs, code shared across targets or runtimes, compiler-checked concurrency, or build infrastructure. Use only when the /implement-plan workflow selects it or the user explicitly names it.
 model: claude-sonnet-5-5
 effort: xhigh
 disallowedTools: Agent, WebFetch, WebSearch

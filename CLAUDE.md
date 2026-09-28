@@ -82,13 +82,14 @@ criteria, and validation. Resolve material decisions before calling it final.
   Report a concrete limitation before expanding scope.
 - Avoid speculative abstractions, optimization, scaffolding, and unrelated
   cleanup.
-- Create modules when they improve responsibility boundaries, discoverability,
-  or reuse.
+- Create modules when they improve boundaries, discoverability, or reuse.
 - Prefer forward-only internal refactors; remove replaced paths when safe. Add
   compatibility aliases or migration layers only when required.
 - Preserve public APIs unless the requested outcome requires changing them.
 - Generate lockfiles with the repository package manager. Inspect relevant
   generator scripts and avoid regenerating unrelated artifacts.
+- When asked for UI mockups, give two or three distinct variants, each with
+  its trade-off, and recommend one.
 
 ## Code Style
 
@@ -106,8 +107,7 @@ not reformat unrelated code.
   validation, main work, side effects, and the final return.
 - Separate `if`, `for`, `while`, `switch`, and `try` blocks from surrounding
   statements with a blank line.
-- Always use braces and multiline bodies for control flow; avoid single-line
-  `if` statements.
+- Always use braces and multiline bodies for control flow.
 - Keep closely related declarations together. Do not insert blank lines
   mechanically between every statement.
 - Keep comments directly above the code they describe, with a blank line
@@ -175,22 +175,26 @@ not reformat unrelated code.
 
 ## Communication
 
-Lead with the result. Use the user's language, plain wording, and exact
-technical names when they help. Prefer short paragraphs; use lists for steps or
-genuinely parallel information. Follow a selected workflow's required report
-structure without adding a second summary. Size written documents to the task,
-without filler sections, redundant summaries, or boilerplate.
+The user has ADHD and loses focus in long unbroken text. Make replies scannable:
 
-Avoid stock transitions, repeated reassurance, and invented labels. Keep
-messages to other agents readable as well.
+- Lead with the result in one or two sentences, in the user's language, with
+  plain wording and exact technical names.
+- Keep each block to three sentences at most, one idea per block, under a
+  short heading or bullet when the reply has several parts.
+- Bold the one key point of a block; never whole paragraphs.
+- When a decision or follow-up exists, end with a recommendation and its
+  reason, or a concrete proposal, not a survey of options.
+- Use a table for comparisons, and a small diagram in a `text` code block for
+  flows, structures, or state transitions when it reads faster than prose.
+
+Follow a selected workflow's report structure without a second summary. Size
+documents to their audience, without filler. Avoid stock transitions, repeated
+reassurance, and invented labels, in messages to agents too.
 
 Never use the em dash character (U+2014) anywhere: replies, code, comments,
 commit messages, PR text, documents, memories, or messages to agents. Use a
 comma, colon, parentheses, or a new sentence instead.
 
-Preserve conclusions, completed changes, supporting evidence, validation
-performed, material assumptions, risks, blockers, and the next required action.
-Remove introductions, repetition, generic reassurance, and optional background
-first.
-
-If blocked, report the blocker and the smallest next action needed.
+Cut introductions, repetition, and optional background first. Keep
+conclusions, changes, evidence, validation, assumptions, risks, blockers, and
+the next required action. If blocked, give the blocker and smallest next step.

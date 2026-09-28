@@ -83,13 +83,15 @@ Use `super-implementer` when the plan changes any of:
 - authentication or security;
 - persistence or data migrations;
 - conditional, recursive, nominal, or inference-heavy TypeScript types, or
-  public types whose inference the plan's acceptance criteria assert.
+  public types whose inference the plan's acceptance criteria assert;
+- state machines, workers, or async lifecycles with cancellation;
+- concurrency whose correctness depends on ordering, actor reentrancy, or
+  cancellation, which the compiler doesn't check.
 
 Also use `super-implementer` when the plan shows the task is hard:
 
 - its correctness depends on several interacting subsystems at once, such as
-  concurrency with persistence, or a state machine with workers and
-  cancellation;
+  concurrency with persistence, or sync across several stores;
 - it calls for new algorithmic or correctness-critical logic with no existing
   pattern in the repository to follow;
 - `implementer` already attempted the same work and returned it incomplete, or
@@ -102,9 +104,7 @@ Use `implementer` when the plan changes any of:
 - shared monorepo contracts;
 - code shared by several targets, such as platform apps and their extensions,
   or runtime adapters;
-- Swift concurrency: actor isolation, `Sendable` conformance, or main-actor
-  boundaries;
-- state machines, workers, or async lifecycles with cancellation;
+- Swift isolation annotations and `Sendable` conformance the compiler checks;
 - pinned dependencies, artifacts, or compatibility matrices;
 - compatibility or migration surfaces;
 - build infrastructure.
@@ -132,8 +132,8 @@ matched.
 Spawn exactly one selected implementation agent with the Agent tool, as a new
 subagent of that type rather than a fork of this conversation:
 
-- `super-implementer` for the security, data, type-level, and hard-task
-  categories above;
+- `super-implementer` for the security, data, type-level, state machine,
+  concurrency, and hard-task categories above;
 - `implementer` for the contract-heavy categories above;
 - `light-implementer` for the narrow and mechanical categories above.
 

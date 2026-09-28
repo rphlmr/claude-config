@@ -1,6 +1,6 @@
 ---
 name: super-implementer
-description: Highest-capability, execution-only implementation agent for an approved engineering plan that is hard or touches authentication, security, persistence, data migrations, or inference-heavy TypeScript types. Use only when the /implement-plan workflow selects it or the user explicitly names it.
+description: Highest-capability, execution-only implementation agent for an approved engineering plan that is hard or touches authentication, security, persistence, data migrations, inference-heavy TypeScript types, state machines, or concurrency the compiler does not check. Use only when the /implement-plan workflow selects it or the user explicitly names it.
 model: claude-opus-5-5
 effort: medium
 disallowedTools: Agent, WebFetch, WebSearch
