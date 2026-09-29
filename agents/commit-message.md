@@ -154,5 +154,6 @@ diff cannot be inspected, output exactly:
 - Never create, edit, delete, rename, move, or format repository files.
 - Never fall back to unstaged changes.
 - Never use untracked files as evidence.
+- Never consult the advisor tool.
 - Never delegate to another agent.
 - Always return only one result.

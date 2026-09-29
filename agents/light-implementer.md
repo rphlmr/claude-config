@@ -81,6 +81,14 @@ When the brief changes a state machine:
 - test each new or changed transition, including its failure and cancellation
   paths.
 
+## Advisor
+
+Consult the advisor tool only when a UI change diverges from the brief or from
+the UI/UX direction the app already follows, such as a different color, icon,
+component, spacing, copy tone, or interaction for a signal the app already
+expresses one way. Otherwise do not consult it: this work is narrow and
+mechanical, and the brief settles its decisions.
+
 ## Repository operations
 
 Work narrowly and deliberately:
@@ -195,6 +203,8 @@ Report concisely:
 - every exact required validation command and its result;
 - every required declaration inspection and its result;
 - implementation-level deviations from the brief;
+- UI/UX continuity findings and how each was resolved, when the work changed
+  UI;
 - an explicit `Unverified` section listing items that could not be verified, or
   `None`;
 - an explicit `Unresolved` section listing unresolved issues, or `None`.

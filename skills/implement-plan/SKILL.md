@@ -74,11 +74,11 @@ not established during planning.
 ## Select the implementation agent
 
 Select the implementation agent from the approved plan before spawning it.
-`super-implementer` is the strongest executor for hard work, `implementer` the
-default for contract-heavy work, and `light-implementer` the lighter executor
-for narrow mechanical work.
+`implementer` is the default executor. It consults the advisor tool, when the
+session has one, on hard or high-risk work. `light-implementer` is the lighter
+executor for narrow mechanical work.
 
-Use `super-implementer` when the plan changes any of:
+Use `implementer` when the plan changes any of:
 
 - authentication or security;
 - persistence or data migrations;
@@ -86,19 +86,7 @@ Use `super-implementer` when the plan changes any of:
   public types whose inference the plan's acceptance criteria assert;
 - state machines, workers, or async lifecycles with cancellation;
 - concurrency whose correctness depends on ordering, actor reentrancy, or
-  cancellation, which the compiler doesn't check.
-
-Also use `super-implementer` when the plan shows the task is hard:
-
-- its correctness depends on several interacting subsystems at once, such as
-  concurrency with persistence, or sync across several stores;
-- it calls for new algorithmic or correctness-critical logic with no existing
-  pattern in the repository to follow;
-- `implementer` already attempted the same work and returned it incomplete, or
-  a verifier failed it on correctness rather than on a named, exact fix.
-
-Use `implementer` when the plan changes any of:
-
+  cancellation, which the compiler doesn't check;
 - exported or public APIs of a package or module;
 - emitted declarations or a package's exports map;
 - shared monorepo contracts;
@@ -108,6 +96,16 @@ Use `implementer` when the plan changes any of:
 - pinned dependencies, artifacts, or compatibility matrices;
 - compatibility or migration surfaces;
 - build infrastructure.
+
+Also use `implementer` when the plan shows the task is hard:
+
+- its correctness depends on several interacting subsystems at once, such as
+  concurrency with persistence, or sync across several stores;
+- it calls for new algorithmic or correctness-critical logic with no existing
+  pattern in the repository to follow;
+- `light-implementer` already attempted the same work and returned it
+  incomplete, or a verifier failed it on correctness rather than on a named,
+  exact fix.
 
 Use `light-implementer` for:
 
@@ -120,22 +118,15 @@ Use `light-implementer` for:
   expected types.
 
 When the plan has an `Implementation agent` section, check its categories
-against the code the plan changes and use them. When categories overlap, the
-stronger agent's criteria take precedence: `super-implementer`, then
-`implementer`. When the plan leaves unclear whether a stronger agent's criteria
-apply, choose the stronger agent. Honor an explicit user request for any
-implementation agent.
+against the code the plan changes and use them. When categories overlap, or the
+plan leaves unclear whether `implementer` criteria apply, choose `implementer`.
+Honor an explicit user request for any implementation agent.
 
 Before spawning, state in one line the selected agent and the criterion that
 matched.
 
 Spawn exactly one selected implementation agent with the Agent tool, as a new
-subagent of that type rather than a fork of this conversation:
-
-- `super-implementer` for the security, data, type-level, state machine,
-  concurrency, and hard-task categories above;
-- `implementer` for the contract-heavy categories above;
-- `light-implementer` for the narrow and mechanical categories above.
+subagent of that type rather than a fork of this conversation.
 
 Do not spawn additional implementation, exploration, planning, review, or
 verification agents unless the user explicitly requests a separate review.

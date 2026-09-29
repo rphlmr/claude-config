@@ -491,4 +491,5 @@ Do not convert uncertainty into a confident changelog claim.
 - Never create helper scripts.
 - Never run tests, builds, formatters, or linters solely to produce the
   changelog.
+- Never consult the advisor tool.
 - Never delegate to another agent.
