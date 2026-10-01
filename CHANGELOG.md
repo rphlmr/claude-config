@@ -1,5 +1,27 @@
 # Changelog
 
+## [3.0.0](https://github.com/rphlmr/claude-config/compare/v2.2.0...v3.0.0) (2026-10-01)
+
+
+### ⚠ BREAKING CHANGES
+
+* **implementer:** consult an opus advisor at decision points on sonnet 5.5
+the super-implementer agent is removed. /implement-plan now routes hard and high-risk work (authentication, security, persistence, migrations, inference-heavy types, state machines, unchecked concurrency) to implementer, which consults the advisor set by advisorModel. Enable it with /advisor or "advisorModel": "claude-opus-5-5", and delete ~/.claude/agents/super-implementer.md after syncing.
+
+### Features
+
+* **claude-md:** keep multi-device apps consistent across every surface ([42ba2b5](https://github.com/rphlmr/claude-config/commit/42ba2b5701ae0d2b88e7d64df9164203a60a2799))
+* **implementer:** consult an opus advisor at decision points on sonnet 5.5 ([d5022c4](https://github.com/rphlmr/claude-config/commit/d5022c4078c6b9f396c6bcc286a1ac2567999a06))
+* **implementer:** consult the advisor on ui/ux continuity drift and report findings ([d5022c4](https://github.com/rphlmr/claude-config/commit/d5022c4078c6b9f396c6bcc286a1ac2567999a06))
+* **implementer:** run implementer on opus 5.5 at medium effort ([42ba2b5](https://github.com/rphlmr/claude-config/commit/42ba2b5701ae0d2b88e7d64df9164203a60a2799))
+* **light-implementer:** consult the advisor only for ui/ux continuity drift ([d5022c4](https://github.com/rphlmr/claude-config/commit/d5022c4078c6b9f396c6bcc286a1ac2567999a06))
+
+
+### Bug Fixes
+
+* **commit-message:** stop the agent from consulting the advisor tool ([d5022c4](https://github.com/rphlmr/claude-config/commit/d5022c4078c6b9f396c6bcc286a1ac2567999a06))
+* **pr-changelog:** stop the agent from consulting the advisor tool ([d5022c4](https://github.com/rphlmr/claude-config/commit/d5022c4078c6b9f396c6bcc286a1ac2567999a06))
+
 ## [2.2.0](https://github.com/rphlmr/claude-config/compare/v2.1.0...v2.2.0) (2026-09-28)
 
 
