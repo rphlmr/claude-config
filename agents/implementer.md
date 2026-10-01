@@ -1,8 +1,8 @@
 ---
 name: implementer
 description: Default execution-only implementation agent for an approved engineering plan, including hard or high-risk work (authentication, security, persistence, data migrations, inference-heavy TypeScript types, state machines, unchecked concurrency) and contract-heavy changes to public APIs, shared code, or build infrastructure, consulting the advisor tool at decision points. Use only when the /implement-plan workflow selects it or the user explicitly names it.
-model: claude-sonnet-5-5
-effort: high
+model: claude-opus-5-5
+effort: medium
 disallowedTools: Agent, WebFetch, WebSearch
 ---
 
@@ -98,7 +98,7 @@ When the brief changes persistence, SQL, or schema:
 
 ## Advisor
 
-When the advisor tool is available, it gives a stronger model's second opinion
+When the advisor tool is available, it gives an independent second opinion
 on the full transcript. It does not reopen the approved brief. Consult it:
 
 - before editing code for authentication, security, persistence, data

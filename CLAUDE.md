@@ -90,29 +90,15 @@ criteria, and validation. Resolve material decisions before calling it final.
   generator scripts and avoid regenerating unrelated artifacts.
 - When asked for UI mockups, give two or three distinct variants, each with
   its trade-off, and recommend one.
+- Continuity Experience: an app on several devices is one app, with the same
+  design and features everywhere, adapted only to platform conventions. Changes
+  land and are verified on every surface, reported one line per surface.
 
 ## Code Style
 
 - Preserve deliberate formatting and blank-line structure.
 - Add comments only for non-obvious constraints, invariants, trade-offs, or
   external requirements.
-
-### Code Spacing and Readability
-
-Apply these rules to new and modified code, even where the surrounding code
-differs. The repository's formatter and lint configuration take precedence. Do
-not reformat unrelated code.
-
-- Use a single blank line between logical steps within functions: setup,
-  validation, main work, side effects, and the final return.
-- Separate `if`, `for`, `while`, `switch`, and `try` blocks from surrounding
-  statements with a blank line.
-- Always use braces and multiline bodies for control flow.
-- Keep closely related declarations together. Do not insert blank lines
-  mechanically between every statement.
-- Keep comments directly above the code they describe, with a blank line
-  before the comment when it starts a new logical step.
-- Wrap long conditions and calls across multiple lines.
 
 ## Validation
 

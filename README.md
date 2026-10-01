@@ -85,6 +85,7 @@ exclusion patterns assume the clone directory is named `claude-config`.
 │   ├── pr-changelog.md
 │   └── verifier.md
 ├── rules/
+│   ├── code-spacing.md
 │   ├── react.md
 │   └── typescript.md
 ├── skills/
@@ -137,7 +138,7 @@ The repository provides these custom agents:
 | ----------------------------- | ------------------- | ------------------------- | --------------------------------------------------- |
 | `agents/commit-message.md`    | `commit-message`    | Claude Sonnet 5, low      | `Bash` only                                         |
 | `agents/future-architect.md`  | `future-architect`  | Claude Opus 5.5, high     | Inherited, minus file edits and `Agent`             |
-| `agents/implementer.md`       | `implementer`       | Claude Sonnet 5.5, high   | Inherited, minus `Agent`, `WebFetch`, `WebSearch`   |
+| `agents/implementer.md`       | `implementer`       | Claude Opus 5.5, medium   | Inherited, minus `Agent`, `WebFetch`, `WebSearch`   |
 | `agents/light-implementer.md` | `light-implementer` | Claude Sonnet 5.5, medium | Inherited, minus `Agent`, `WebFetch`, `WebSearch`   |
 | `agents/pr-changelog.md`      | `pr-changelog`      | Claude Sonnet 5, medium   | `Bash`, `Read`, `Grep`, `Glob`                      |
 | `agents/verifier.md`          | `verifier`          | Claude Opus 5.5, high     | Inherited, minus file edits, web tools, and `Agent` |
@@ -166,22 +167,23 @@ Reviewed on September 24, 2026 against the official
 | ------------------- | ------------------- | -------- |
 | `future-architect`  | `claude-opus-5-5`   | `high`   |
 | `verifier`          | `claude-opus-5-5`   | `high`   |
-| `implementer`       | `claude-sonnet-5-5` | `high`   |
+| `implementer`       | `claude-opus-5-5`   | `medium` |
 | `light-implementer` | `claude-sonnet-5-5` | `medium` |
 | `pr-changelog`      | `claude-sonnet-5`   | `medium` |
 | `commit-message`    | `claude-sonnet-5`   | `low`    |
 
 - Models are pinned by full ID, not the `opus` or `sonnet` aliases, because the
   prompts are tuned for these versions and an alias moves when a new model ships.
-- Sonnet 5.5 runs `implementer` and `light-implementer`, and Sonnet 5 the
-  other lighter roles, as the cheaper models. Haiku 4.5 has no effort control
+- Opus 5.5 runs `implementer`, since it takes hard and high-risk plans.
+  Sonnet 5.5 runs `light-implementer`, and Sonnet 5 the other lighter roles,
+  as the cheaper models. Haiku 4.5 has no effort control
   and retires no sooner than October 15, 2026.
 - The effort scale is calibrated per model, so the same level name means a
-  different amount of thinking on each model. `implementer` runs Sonnet 5.5
-  at `high`, its default, and escalates hard decisions to the advisor, which
-  buys about what more effort would. Going lower risks the executor no longer
-  noticing when it is stuck, so it stops consulting the advisor. `verifier`
-  and `future-architect` use `high`, the level listed for complex reasoning.
+  different amount of thinking on each model. `implementer` runs Opus 5.5
+  at `medium`: execution of an approved plan needs less deliberation than
+  review or design, and it still escalates hard decisions to the advisor.
+  `verifier` and `future-architect` use `high`, the level listed for complex
+  reasoning.
   `light-implementer` uses `medium`, Sonnet 5.5's recommended start for agentic
   coding, `pr-changelog` uses `medium`, Sonnet 5's cost-saving step-down, and
   `commit-message` uses `low` for a short, latency-sensitive task.
@@ -224,8 +226,9 @@ The global instructions and agent prompts follow the Opus 5.5 prompting guide:
   "double-check your work" steps, which cause over-verification on Opus 5.x.
 - `CLAUDE.md` holds only what every session needs and stays under the 200-line
   target from the official memory documentation, counted with lines wrapped at
-  80 columns. TypeScript and React rules live in `rules/` with `paths:`
-  frontmatter, so they load only when Claude reads matching files, and the state
+  80 columns. Code spacing, TypeScript and React rules live in `rules/` with
+  `paths:` frontmatter, so they load only when Claude reads matching files
+  (code spacing on the source files of common languages), and the state
   machine and copyable-Markdown guidance are skills.
 
 ### State machine preference
