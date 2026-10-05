@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<!-- At login, opens the SwiftBar menu (when installed) and starts every
+     configured Remote Control server.
+     sync-remote-control.sh replaces __HOME__ when installing. -->
+<plist version="1.0">
+<dict>
+  <key>Label</key>
+  <string>local.claude-rc</string>
+  <key>ProgramArguments</key>
+  <array>
+    <string>/bin/sh</string>
+    <string>-c</string>
+    <string>/usr/bin/open -g -a SwiftBar || true; exec "__HOME__/.local/bin/claude-rc" start</string>
+  </array>
+  <key>RunAtLoad</key>
+  <true/>
+  <!-- claude-rc exits after launching the servers; without this, launchd
+       kills them with the rest of the job's process group. -->
+  <key>AbandonProcessGroup</key>
+  <true/>
+  <key>StandardOutPath</key>
+  <string>__HOME__/.local/state/claude-rc/launchd.log</string>
+  <key>StandardErrorPath</key>
+  <string>__HOME__/.local/state/claude-rc/launchd.log</string>
+</dict>
+</plist>

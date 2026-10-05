@@ -1,0 +1,274 @@
+#!/usr/bin/env bash
+# Run one background `claude remote-control` server per configured project.
+#
+# Usage:
+#   claude-rc [start] [project ...]   start servers (all configured projects by default)
+#   claude-rc stop [project ...]      stop servers (all running by default)
+#   claude-rc status                  print "name<TAB>running|stopped<TAB>pid<TAB>dir"
+#   claude-rc hook                    SessionStart hook: start the server for $CLAUDE_PROJECT_DIR
+#   claude-rc log <project>           print the path of a project's log
+#
+# A project is a name (directory basename) or a path. Projects live in
+# ~/.config/claude-rc/projects, one directory per line, `#` for comments.
+# Compatible with macOS /bin/bash 3.2.
+
+set -euo pipefail
+
+CONFIG_FILE="${CLAUDE_RC_CONFIG:-$HOME/.config/claude-rc/projects}"
+STATE_DIR="${CLAUDE_RC_STATE:-$HOME/.local/state/claude-rc}"
+
+# The server redraws its TUI forever (about 450 bytes/s), so logs are capped.
+LOG_MAX_BYTES=262144
+
+mkdir -p "$STATE_DIR"
+
+die() {
+  echo "claude-rc: $*" >&2
+  exit 1
+}
+
+configured_dirs() {
+  [[ -f "$CONFIG_FILE" ]] || return 0
+
+  local line
+  while IFS= read -r line || [[ -n "$line" ]]; do
+    line="${line%%#*}"
+    line="$(echo "$line" | sed 's/^[[:space:]]*//;s/[[:space:]]*$//')"
+    [[ -n "$line" ]] || continue
+    [[ "$line" == "~"* ]] && line="$HOME${line:1}"
+    echo "${line%/}"
+  done <"$CONFIG_FILE"
+}
+
+# Resolve a project name or path to a configured directory. The config file is
+# the allowlist: an unlisted path is refused.
+resolve_dir() {
+  local project="$1" path="" dir
+
+  if [[ "$project" == */* || "$project" == "." ]]; then
+    path="$(cd "$project" 2>/dev/null && pwd -P)" || die "$project: no such directory"
+  fi
+
+  while IFS= read -r dir; do
+    if [[ -n "$path" && "$(cd "$dir" 2>/dev/null && pwd -P)" == "$path" ]] ||
+      [[ -z "$path" && "$(basename "$dir")" == "$project" ]]; then
+      echo "$dir"
+      return
+    fi
+  done < <(configured_dirs)
+
+  die "$project: not in $CONFIG_FILE"
+}
+
+# PIDs of every `claude remote-control` (or `claude rc`) server whose working
+# directory is $1, including servers started by hand outside this script.
+# `ps`, not `pgrep -f`: pgrep can't read the arguments of some processes, such
+# as servers started from another terminal session.
+server_pids() {
+  local dir="$1" pid cwd
+
+  for pid in $(
+    ps -axo pid=,command= |
+      awk '$2 == "claude" && ($3 == "remote-control" || $3 == "rc") { print $1 }'
+  ); do
+    cwd="$(lsof -a -p "$pid" -d cwd -Fn 2>/dev/null | sed -n 's/^n//p')"
+    [[ "$cwd" == "$dir" ]] && echo "$pid"
+  done
+
+  return 0
+}
+
+trim_log() {
+  local log="$1"
+
+  # Writes use O_APPEND, so truncating in place is safe while the server runs.
+  if [[ -f "$log" && "$(wc -c <"$log")" -gt "$LOG_MAX_BYTES" ]]; then
+    : >"$log"
+  fi
+}
+
+# Serialize check-and-start per project so concurrent hooks can't double-start.
+with_lock() {
+  local lock="$STATE_DIR/$1.lock" tries=0
+  shift
+
+  until mkdir "$lock" 2>/dev/null; do
+    # A lock older than 30 s belongs to a crashed run.
+    if [[ -n "$(find "$lock" -maxdepth 0 -mtime +30s 2>/dev/null)" ]]; then
+      rmdir "$lock" 2>/dev/null || true
+      continue
+    fi
+
+    tries=$((tries + 1))
+    [[ $tries -le 50 ]] || die "timed out waiting for $lock"
+    sleep 0.1
+  done
+
+  # A subshell keeps `die` from exiting with the lock still held.
+  local status=0
+  ("$@") || status=$?
+  rmdir "$lock" 2>/dev/null || true
+  return $status
+}
+
+start_one() {
+  local dir="$1" name log
+  name="$(basename "$dir")"
+  log="$STATE_DIR/$name.log"
+
+  [[ -d "$dir" ]] || die "$dir: no such directory"
+
+  if [[ -n "$(server_pids "$dir")" ]]; then
+    echo "claude-rc: $name already running"
+    return
+  fi
+
+  # A clean login shell rebuilds the user's normal environment and drops the
+  # CLAUDECODE/CLAUDE_CODE_* variables a hook would otherwise pass on, which
+  # make the server behave as a nested session.
+  (
+    cd "$dir"
+    nohup env -i \
+      HOME="$HOME" USER="${USER:-}" LOGNAME="${LOGNAME:-}" \
+      SHELL=/bin/zsh TERM=xterm-256color LANG="${LANG:-en_US.UTF-8}" \
+      /bin/zsh -lic 'exec claude remote-control --name "$1"' claude-rc "$name" \
+      </dev/null >>"$log" 2>&1 &
+  )
+
+  # Hold the lock until the shell has exec'd into the server, so a concurrent
+  # start sees it.
+  local tries=0
+  while [[ -z "$(server_pids "$dir")" ]]; do
+    tries=$((tries + 1))
+    [[ $tries -le 50 ]] || die "$name did not start, see $log"
+    sleep 0.1
+  done
+
+  echo "claude-rc: started $name"
+}
+
+stop_one() {
+  local dir="$1" name pids pid
+  name="$(basename "$dir")"
+  pids="$(server_pids "$dir")"
+
+  if [[ -z "$pids" ]]; then
+    echo "claude-rc: $name not running"
+    return
+  fi
+
+  # SIGINT matches Ctrl+C, which keeps the served sessions unarchived.
+  for pid in $pids; do
+    kill -INT "$pid" 2>/dev/null || true
+  done
+
+  # Wait for the shutdown so a start right after doesn't see the old server.
+  # SIGTERM only if it hangs (a refused duplicate lingers about a minute).
+  local tries=0
+  while [[ -n "$(server_pids "$dir")" ]]; do
+    tries=$((tries + 1))
+
+    if [[ $tries -eq 100 ]]; then
+      for pid in $(server_pids "$dir"); do
+        kill -TERM "$pid" 2>/dev/null || true
+      done
+    fi
+
+    [[ $tries -le 150 ]] || die "$name did not stop"
+    sleep 0.1
+  done
+
+  echo "claude-rc: stopped $name"
+}
+
+target_dirs() {
+  local project
+
+  if [[ $# -eq 0 ]]; then
+    configured_dirs
+    return
+  fi
+
+  for project in "$@"; do
+    resolve_dir "$project"
+  done
+}
+
+# Targets are resolved up front so an unknown project fails before any action.
+cmd_start() {
+  local dirs dir
+  dirs="$(target_dirs "$@")"
+
+  while IFS= read -r dir; do
+    [[ -n "$dir" ]] || continue
+    with_lock "$(basename "$dir")" start_one "$dir"
+  done <<<"$dirs"
+}
+
+cmd_stop() {
+  local dirs dir
+  dirs="$(target_dirs "$@")"
+
+  while IFS= read -r dir; do
+    [[ -n "$dir" ]] || continue
+    stop_one "$dir"
+  done <<<"$dirs"
+}
+
+cmd_status() {
+  local dir name pids
+
+  while IFS= read -r dir; do
+    name="$(basename "$dir")"
+    trim_log "$STATE_DIR/$name.log"
+    pids="$(server_pids "$dir" | tr '\n' ' ')"
+    pids="${pids% }"
+
+    if [[ -n "$pids" ]]; then
+      printf '%s\trunning\t%s\t%s\n' "$name" "$pids" "$dir"
+    else
+      printf '%s\tstopped\t-\t%s\n' "$name" "$dir"
+    fi
+  done < <(configured_dirs)
+}
+
+# Starts the server when Claude Code opens inside a configured project. Hook
+# stdout becomes session context, so it stays silent.
+cmd_hook() {
+  local cwd dir
+  cwd="${CLAUDE_PROJECT_DIR:-$PWD}"
+
+  # Sessions spawned by a remote-control server are already served, and from
+  # inside them pgrep can't see that server, so the duplicate check would miss.
+  if [[ "${CLAUDE_CODE_ENVIRONMENT_KIND:-}" == "bridge" ]]; then
+    return 0
+  fi
+
+  # Nested projects (~/workspace and ~/workspace/app) resolve to the deepest one.
+  local match=""
+  while IFS= read -r dir; do
+    if [[ "$cwd" == "$dir" || "$cwd" == "$dir"/* ]] && [[ ${#dir} -gt ${#match} ]]; then
+      match="$dir"
+    fi
+  done < <(configured_dirs)
+
+  if [[ -n "$match" ]]; then
+    with_lock "$(basename "$match")" start_one "$match" >/dev/null 2>&1 || true
+  fi
+}
+
+command="${1:-start}"
+[[ $# -gt 0 ]] && shift
+
+case "$command" in
+  start) cmd_start "$@" ;;
+  stop) cmd_stop "$@" ;;
+  status) cmd_status ;;
+  hook) cmd_hook ;;
+  log)
+    dir="$(resolve_dir "${1:?usage: claude-rc log <project>}")"
+    echo "$STATE_DIR/$(basename "$dir").log"
+    ;;
+  -h | --help | help) sed -n '2,13p' "$0" | sed 's/^# \{0,1\}//' ;;
+  *) cmd_start "$command" "$@" ;;
+esac

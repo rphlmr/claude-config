@@ -8,7 +8,9 @@ This repository is the source of truth for:
 - custom skills;
 - custom agents (subagents);
 - global `CLAUDE.md`;
-- global rules.
+- global rules;
+- `claude-rc`, a launcher for background Remote Control servers, with its
+  SwiftBar menu bar plugin.
 
 It does not manage Claude Code settings: `~/.claude/settings.json` stays under
 your own control.
@@ -77,6 +79,13 @@ exclusion patterns assume the clone directory is named `claude-config`.
 │   ├── settings.json
 │   └── skills/
 │       └── release-commit-message/
+├── remote-control/
+│   ├── claude-rc
+│   ├── launchd/
+│   │   └── local.claude-rc.plist
+│   └── swiftbar/
+│       ├── claude-rc.10s.sh
+│       └── icon.py
 ├── agents/
 │   ├── commit-message.md
 │   ├── future-architect.md
@@ -106,6 +115,7 @@ exclusion patterns assume the clone directory is named `claude-config`.
 │   └── verify-implementation/
 ├── sync-skills.sh
 ├── sync-claude-md.sh
+├── sync-remote-control.sh
 └── README.md
 ```
 
@@ -253,6 +263,101 @@ The script keeps the converted pages in a cache outside this repository
 downloads them again once the cache is a week old, so the skill follows
 Apple's latest text without storing a copy of it here. Offline, it keeps using
 the last copy.
+
+## Remote Control servers
+
+`claude-rc` keeps one background
+[`claude remote-control`](https://code.claude.com/docs/en/remote-control)
+server per project, so the projects stay reachable from claude.ai/code and the
+Claude app without an open terminal.
+
+```text
+login (launchd) ─┐
+SwiftBar menu ───┼──> claude-rc start | stop | status
+SessionStart ────┘          │
+hook                        └─ one server per project, never two
+```
+
+Install or update it:
+
+```bash
+brew install --cask swiftbar   # once
+./sync-remote-control.sh
+```
+
+The script copies `claude-rc` to `~/.local/bin/` and the plugin into SwiftBar's
+plugin folder, installs and loads the `local.claude-rc` LaunchAgent (which
+opens SwiftBar and starts every configured project at login, and right away
+when installed), and
+creates `~/.config/claude-rc/projects` when it is missing.
+That file is machine-specific and lives outside this repository:
+
+```text
+# One project directory per line. Lines starting with # are ignored.
+~/workspace/my-app
+~/workspace/my-library
+```
+
+Commands:
+
+| Command                     | Effect                                                    |
+| --------------------------- | --------------------------------------------------------- |
+| `claude-rc [project ...]`   | Start servers, every configured project by default.       |
+| `claude-rc stop [project]`  | Stop servers with SIGINT, which keeps sessions unarchived. |
+| `claude-rc status`          | List projects with their state and server PIDs.           |
+| `claude-rc log <project>`   | Print the path of a project's server log.                 |
+
+To start the server whenever Claude Code opens inside a configured project, add
+this hook to `~/.claude/settings.json` (no sync script writes that file):
+
+```json
+{
+  "hooks": {
+    "SessionStart": [
+      {
+        "matcher": "startup|resume",
+        "hooks": [{ "type": "command", "command": "\"$HOME/.local/bin/claude-rc\" hook" }]
+      }
+    ]
+  }
+}
+```
+
+How it stays at one server per project:
+
+- A server is any `claude remote-control` or `claude rc` process whose working
+  directory is the project, including one started by hand in a terminal.
+  Detection uses `ps`, because `pgrep -f` can't read the arguments of
+  processes started from another terminal session.
+- A per-project lock serializes check-and-start, so concurrent hooks can't
+  both start one.
+- The hook skips sessions spawned by a server
+  (`CLAUDE_CODE_ENVIRONMENT_KIND=bridge`), which are already served.
+- Projects may nest. The hook starts the deepest project that contains the
+  session's folder: with `~/workspace` and `~/workspace/my-app` listed, a
+  session in `my-app` starts that project and a session in any other
+  `~/workspace` folder starts `workspace`.
+- Claude Code itself refuses a second server in a served folder, and the
+  refused process lingers about a minute before it exits.
+
+The menu bar shows Clawd with signal arcs and the number of running servers,
+or Clawd alone when none runs. The icons are template PNGs embedded in the
+plugin; edit `remote-control/swiftbar/icon.py` and paste its output into the
+plugin to change them (`--preview <dir>` writes enlarged copies).
+
+The LaunchAgent runs once at login and does not restart a server that stops,
+so **Stop** in the menu stays stopped. It sets `AbandonProcessGroup`, because
+launchd otherwise kills the servers when `claude-rc` exits. To turn it off:
+`launchctl bootout gui/$(id -u)/local.claude-rc` and delete
+`~/Library/LaunchAgents/local.claude-rc.plist`.
+
+Only folders listed in `~/.config/claude-rc/projects` can start: the hook, the
+menu and `claude-rc start <name|path>` refuse anything else.
+
+Servers start from a clean login shell, so they get your usual `PATH` and none
+of the `CLAUDECODE`/`CLAUDE_CODE_*` variables of the session that ran the hook.
+Logs live in `~/.local/state/claude-rc/` and are cleared past 256 KB, because
+the server redraws its terminal UI continuously.
 
 ## Source of truth
 
@@ -519,3 +624,12 @@ This repository manages:
 ```
 
 It never reads or writes `~/.claude/settings.json`.
+
+`sync-remote-control.sh` writes outside `~/.claude`:
+
+```text
+~/.local/bin/claude-rc
+<SwiftBar plugin folder>/claude-rc.10s.sh
+~/Library/LaunchAgents/local.claude-rc.plist
+~/.config/claude-rc/projects   (created once, never overwritten)
+```
