@@ -15,6 +15,38 @@ This repository is the source of truth for:
 It does not manage Claude Code settings: `~/.claude/settings.json` stays under
 your own control.
 
+## Contents
+
+- [Installation](#installation)
+- [Repository structure](#repository-structure)
+- [Included skills](#included-skills)
+- [Model configuration](#model-configuration)
+- [Prompt maintenance](#prompt-maintenance)
+  - [State machine preference](#state-machine-preference)
+  - [Apple Human Interface Guidelines](#apple-human-interface-guidelines)
+- [Remote Control servers](#remote-control-servers)
+- [Source of truth](#source-of-truth)
+- [What is synchronized](#what-is-synchronized)
+  - [Skills](#skills)
+  - [Custom agents](#custom-agents)
+  - [Global `CLAUDE.md`](#global-claudemd)
+  - [Global rules](#global-rules)
+- [`sync-skills.sh`](#sync-skillssh)
+- [Typical workflow](#typical-workflow)
+  - [Update a skill](#update-a-skill)
+  - [Update a custom agent](#update-a-custom-agent)
+  - [Update global instructions or rules](#update-global-instructions-or-rules)
+- [Adding a new skill](#adding-a-new-skill)
+- [Adding a new rule](#adding-a-new-rule)
+- [Evaluating skills](#evaluating-skills)
+- [Adding a new custom agent](#adding-a-new-custom-agent)
+- [Updating another machine](#updating-another-machine)
+- [Versioning and releases](#versioning-and-releases)
+  - [Automated release flow](#automated-release-flow)
+  - [One-time GitHub configuration](#one-time-github-configuration)
+- [Copy semantics](#copy-semantics)
+- [Repository scope](#repository-scope)
+
 ## Installation
 
 Clone the repository:
