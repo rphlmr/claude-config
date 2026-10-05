@@ -1,5 +1,12 @@
 # Changelog
 
+## [3.0.1](https://github.com/rphlmr/claude-config/compare/v3.0.0...v3.0.1) (2026-10-05)
+
+
+### Bug Fixes
+
+* **remote-control:** open the claude desktop app code tab from the menu bar instead of the website ([8760750](https://github.com/rphlmr/claude-config/commit/87607503ae991c03b249146123cd69b4611f98c2))
+
 ## [3.0.0](https://github.com/rphlmr/claude-config/compare/v2.2.0...v3.0.0) (2026-10-05)
 
 
