@@ -11,11 +11,8 @@ small reviewable diff.
 - Apply the selected skill's specific execution and output contract instead of
   stacking it with generic workflow defaults. A review-only or plan-only
   request is not permission to implement.
-- When a skill causes a pause, approval request, unfinished work, or a change
-  of direction, identify and link the exact `SKILL.md`, quote the relevant
-  rule, and distinguish its explicit requirement from your interpretation.
-  Include this evidence within the workflow's blocker or report format when it
-  has one.
+- When a skill's rule conflicts with these instructions, follow these
+  instructions without pausing, and name the skill and rule in one line.
 
 ## Operating Mode
 
@@ -44,12 +41,8 @@ For requests to change, build, implement, update, refactor, or fix:
   not block the remaining work. Stop when the work is done, when an approval
   below applies, or when you are genuinely blocked.
 - Inspect nearby code before introducing a pattern.
-- Treat an ordinary user-provided plan as intent: verify it against the
-  current code before implementation and report material conflicts.
-- When a dedicated execution workflow explicitly marks a plan as current,
-  approved, and authoritative, follow that execution contract instead: inspect
-  the named and directly affected code, resolve non-material repository drift,
-  and escalate material conflicts without re-planning.
+- Treat a user-provided plan as intent: verify it against the current code
+  before implementation and report material conflicts.
 - Follow `## Validation`.
 
 Ask before these actions unless the user explicitly requested them:
@@ -66,6 +59,8 @@ information materially affects behavior, architecture, security, data
 integrity, or scope. Before asking a blocking question, complete the
 independent, authorized work that makes the decision concrete and reviewable.
 Stop only the dependent work; do not guess the unresolved material decision.
+Ask through the `AskUserQuestion` tool, with concrete options and the
+recommended one first, never as a list of questions in prose.
 
 ### Planning
 
@@ -88,11 +83,10 @@ criteria, and validation. Resolve material decisions before calling it final.
 - Preserve public APIs unless the requested outcome requires changing them.
 - Generate lockfiles with the repository package manager. Inspect relevant
   generator scripts and avoid regenerating unrelated artifacts.
-- When asked for UI mockups, give two or three distinct variants, each with
-  its trade-off, and recommend one.
-- Continuity Experience: an app on several devices is one app, with the same
-  design and features everywhere, adapted only to platform conventions. Changes
-  land and are verified on every surface, reported one line per surface.
+- Give two or three distinct design or mockup variants, each with its
+  trade-off and a recommendation, when the user asks for options or when
+  viable designs differ materially. Otherwise give the one you recommend.
+  Mock only the surface in question unless asked for more.
 
 ## Code Style
 
@@ -105,14 +99,17 @@ criteria, and validation. Resolve material decisions before calling it final.
 - Validate the changed behavior and every explicit acceptance requirement with
   confirmed project commands. Inspect relevant package scripts when commands
   are unknown.
+- While iterating, run the narrowest check that covers the edit: one test
+  file, one browser, one target. Run full suites, every browser, and release
+  builds once, when the change is done. Do not rerun a passing check unless
+  code it covers changed since.
 - Match checks to the affected surface: runtime behavior, compile-time
   inference and emitted declarations for type contracts, and downstream
   consumers for shared contracts. Use a focused reproduction when broader
   validation is impractical.
 - Fix failures caused by the change and rerun affected checks without repeated
   approval. Broaden or repeat validation only for relevant changes, failures,
-  or a concrete unresolved correctness concern. An explicitly requested
-  independent verification pass still performs its own checks.
+  or a concrete unresolved correctness concern.
 - Add tests for meaningful behavior or plausible regressions rather than
   mirroring trivial implementation details.
 - Review the final diff, including new files, for unintended changes. Finish
@@ -131,23 +128,17 @@ criteria, and validation. Resolve material decisions before calling it final.
 - When the user asks for multiple agents, use the number they give; without
   one, run at most three. Never start the `Workflow` tool or a cloud review
   unless the user asks for it by name in the current message.
-- When the user invokes an agent workflow, use its custom agent and follow its
-  agent count, roles, handoff, and parent boundaries. Do not substitute
-  parent-thread reasoning for a requested independent review.
-- `/final-implementation-plan`, `/implement-plan`, `/verify-implementation`,
-  `/future-architect-mode`, and `/session-handoff` run only when the user
-  types them. Suggest the fitting one in one line at its moment: a finished
-  plan, an approved final plan, completed work, a design worth independent
-  review, or work moving to a fresh session. Do not start one yourself.
-- Outside those workflows, work in the main conversation. Delegate only when
-  the user asks, or for a wide read-only investigation that would otherwise
-  flood the context. Do not delegate work you can finish in a handful of tool
-  calls, and do not add architecture reviews, verification agents, or
-  recursive delegation on your own.
+- `/brainstorm` and `/session-handoff` run only when the user types them.
+  Suggest one in one line at its moment: an open design question, or work
+  that should move to a fresh session.
+- Work in the main conversation. Delegate only when the user asks, or for a
+  wide read-only investigation that would otherwise flood the context. Do not
+  delegate work you can finish in a handful of tool calls, and do not add
+  architecture reviews, verification agents, or recursive delegation on your
+  own.
 - Subagents start without this conversation, so give them legible,
   self-contained briefs with the relevant objective, constraints, evidence,
-  and acceptance criteria. Preserve a verbatim plan when the selected workflow
-  requires it.
+  and acceptance criteria.
 
 ## Runtime
 
