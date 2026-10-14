@@ -1,5 +1,27 @@
 # Changelog
 
+## [4.0.0](https://github.com/rphlmr/claude-config/compare/v3.0.1...v4.0.0) (2026-10-14)
+
+
+### ⚠ BREAKING CHANGES
+
+* /final-implementation-plan, /implement-plan, /verify-implementation, /future-architect-mode, and /markdown-output are removed, with the implementer, light-implementer, verifier, and future-architect agents. Use plan mode, the main session, and /code-review instead. sync-skills.sh does not delete them from ~/.claude, so remove them there by hand.
+
+### Features
+
+* **brainstorm:** add /brainstorm skill to replace the superpowers brainstorming flow ([33474ee](https://github.com/rphlmr/claude-config/commit/33474ee6966bdbe180d59a7e104413a4545e95e3))
+
+
+### Bug Fixes
+
+* **claude-md:** ask through the question tool and offer design variants only when they add value ([33474ee](https://github.com/rphlmr/claude-config/commit/33474ee6966bdbe180d59a7e104413a4545e95e3))
+* **claude-md:** drop the global continuity rule and add narrow checks while iterating ([33474ee](https://github.com/rphlmr/claude-config/commit/33474ee6966bdbe180d59a7e104413a4545e95e3))
+
+
+### Code Refactoring
+
+* remove plan, implement, verify, and architect workflows in favor of native claude code features ([33474ee](https://github.com/rphlmr/claude-config/commit/33474ee6966bdbe180d59a7e104413a4545e95e3))
+
 ## [3.0.1](https://github.com/rphlmr/claude-config/compare/v3.0.0...v3.0.1) (2026-10-05)
 
 
