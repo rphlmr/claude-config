@@ -1,5 +1,13 @@
 # Changelog
 
+## [4.1.0](https://github.com/rphlmr/claude-config/compare/v4.0.0...v4.1.0) (2026-10-16)
+
+
+### Features
+
+* **rules:** replace code-spacing with a code-style rule drawn from hand-written code ([4696380](https://github.com/rphlmr/claude-config/commit/46963803c67d00844c2a6cca83fea93108e9d903))
+* **state-machines:** make explicit state machines the default for states, workflows, and sequences ([4696380](https://github.com/rphlmr/claude-config/commit/46963803c67d00844c2a6cca83fea93108e9d903))
+
 ## [4.0.0](https://github.com/rphlmr/claude-config/compare/v3.0.1...v4.0.0) (2026-10-14)
 
 
