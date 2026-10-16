@@ -41,6 +41,8 @@ For requests to change, build, implement, update, refactor, or fix:
   not block the remaining work. Stop when the work is done, when an approval
   below applies, or when you are genuinely blocked.
 - Inspect nearby code before introducing a pattern.
+- Model states, workflows, and sequences as explicit state machines first;
+  apply the `state-machines` skill.
 - Treat a user-provided plan as intent: verify it against the current code
   before implementation and report material conflicts.
 - Follow `## Validation`.
@@ -90,9 +92,9 @@ criteria, and validation. Resolve material decisions before calling it final.
 
 ## Code Style
 
-- Preserve deliberate formatting and blank-line structure.
-- Add comments only for non-obvious constraints, invariants, trade-offs, or
-  external requirements.
+Write code a person can scan, with domain names and visible steps. The
+`code-style` and `typescript` rules hold the details; the repository's
+formatter and lint configuration win where they exist.
 
 ## Validation
 

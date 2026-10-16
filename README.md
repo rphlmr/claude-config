@@ -122,7 +122,7 @@ exclusion patterns assume the clone directory is named `claude-config`.
 │   ├── commit-message.md
 │   └── pr-changelog.md
 ├── rules/
-│   ├── code-spacing.md
+│   ├── code-style.md
 │   ├── react.md
 │   └── typescript.md
 ├── skills/
@@ -152,7 +152,7 @@ exclusion patterns assume the clone directory is named `claude-config`.
 | `/commit-message`            | Generate one Conventional Commit message from the staged diff.                                 | Yes                  | `commit-message`                                                                                                                           |
 | `/pr-changelog`              | Generate PR/MR text, review prep, release notes, or a changelog from committed branch changes. | Yes                  | `pr-changelog`                                                                                                                             |
 | `/session-handoff`           | Create a self-contained prompt for continuing established work in a fresh Claude Code session. | No                   | None                                                                                                                                       |
-| `/state-machines`            | Recommend and sketch explicit state machines for features driven by state transitions.         | Yes                  | None                                                                                                                                       |
+| `/state-machines`            | Make explicit state machines the default for states, workflows, and sequences.                | Yes                  | None                                                                                                                                       |
 
 Skills that Claude can't invoke set `disable-model-invocation: true`. Type the
 command at the start of a message to run them, for example `/session-handoff`.
@@ -239,19 +239,19 @@ The global instructions and agent prompts follow the Opus 5.5 prompting guide:
   "double-check your work" steps, which cause over-verification on Opus 5.x.
 - `CLAUDE.md` holds only what every session needs and stays under the 200-line
   target from the official memory documentation, counted with lines wrapped at
-  80 columns. Code spacing, TypeScript and React rules live in `rules/` with
+  80 columns. Code style, TypeScript and React rules live in `rules/` with
   `paths:` frontmatter, so they load only when Claude reads matching files
-  (code spacing on the source files of common languages), and the state
+  (code style on the source files of common languages), and the state
   machine guidance is a skill.
 
 ### State machine preference
 
-The `state-machines` skill asks Claude to recommend explicit state machines when
-analysis, review, or planning finds transition-heavy logic: XState for
-TypeScript, and an in-house XState-style machine with no third-party library for
-SwiftUI. `CLAUDE.md` points review and planning work at the skill. A
-recommendation never adds XState or
-restructures code without approval.
+The `state-machines` skill makes explicit state machines Claude's first choice
+for states, workflows, and sequences: XState for TypeScript, and an in-house
+XState-style machine with no third-party library for SwiftUI. `CLAUDE.md`
+points review, planning, and implementation work at the skill. Claude builds
+with XState directly where the project already uses it, and asks once before
+adding it as a new dependency.
 
 ### Apple Human Interface Guidelines
 

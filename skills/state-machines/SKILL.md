@@ -1,16 +1,23 @@
 ---
 name: state-machines
-description: Recommends explicit state machines for features whose correctness depends on state transitions, using XState in TypeScript and an in-house XState-style machine in SwiftUI. Use when analyzing, reviewing, planning, or building multi-step workflows, async lifecycles with retry or cancellation, connection, session, sync, or playback lifecycles, or UI with mutually exclusive modes, and when code shows boolean flag clusters, status values set from several places, or events handled in the wrong state, even if the user doesn't mention state machines.
+description: Makes explicit state machines the default design for features whose correctness depends on state transitions, states, workflows, or sequences, using XState in TypeScript and an in-house XState-style machine in SwiftUI. Use when analyzing, reviewing, planning, or building multi-step workflows, async lifecycles with retry or cancellation, connection, session, sync, or playback lifecycles, or UI with mutually exclusive modes, and when code shows boolean flag clusters, status values set from several places, or events handled in the wrong state, even if the user doesn't mention state machines.
 ---
 
 # State Machines
 
-Explicit state machines are the preferred architecture for features whose
-correctness depends on state transitions: multi-step workflows and wizards,
-async lifecycles with retry or cancellation, connection, session, sync, and
-playback lifecycles, and UI with mutually exclusive modes. A machine makes
-impossible states unrepresentable, keeps every transition rule in one reviewable
-place, and lets transitions be tested without the UI.
+Explicit state machines are the default architecture for features whose
+correctness depends on states, transitions, or sequences: multi-step workflows,
+wizards, and ordered steps, async lifecycles with retry or cancellation,
+connection, session, sync, and playback lifecycles, and UI with mutually
+exclusive modes. A machine makes impossible states unrepresentable, keeps every
+transition rule in one reviewable place, and lets transitions be tested without
+the UI.
+
+## When building
+
+When implementing or changing such a feature, model it as a machine first, as
+the first choice rather than a later refactor. Reach for flags, status strings,
+or chained effects only for the cases listed under "When to skip".
 
 ## When to recommend one
 
@@ -23,15 +30,30 @@ When analyzing, reviewing, or planning code, look for implicit transition logic:
 - bugs where an event arrives in the wrong state.
 
 Where these signals appear in a transition-heavy feature, recommend a state
-machine and sketch its states, events, guards, and effects. Skip the
-recommendation for CRUD forms, stateless transforms, and single-flag toggles,
-where a machine adds ceremony without removing risk.
+machine and sketch its states, events, guards, and effects.
+
+## When to skip
+
+Skip a machine for CRUD forms, stateless transforms, and single-flag toggles,
+where it adds ceremony without removing risk.
 
 ## TypeScript
 
-Recommend XState rather than hand-rolled reducers or other state libraries.
-Define machines with `setup()` so context, events, guards, actions, and actors
-are typed, and use `@xstate/react` in React components.
+Use XState rather than hand-rolled reducers or other state libraries:
+
+- Define machines with `setup()` so context, events, guards, actions, and
+  actors are typed.
+- Keep I/O out of the machine. Declare each actor as a placeholder that throws
+  until the caller injects the real one with `.provide()`, or build the setup
+  in a factory that takes typed dependencies (`setupFlowMachine(options)`).
+- Name events by domain, subject, and verb with dots: `editor.file.open`,
+  `beneficiary.add`, `prices.refresh`.
+- Export actor ids as constants when transitions or tests refer to them.
+- Test transitions without the UI: start the machine with `createActor`, send
+  events, and assert with `waitFor` and `snapshot.matches`.
+- In React, use `@xstate/react` and expose the actor through small selector
+  hooks (`useFlowSelector`, `useActiveStep`) instead of passing snapshots
+  down.
 
 ## SwiftUI
 
@@ -48,6 +70,7 @@ Recommend an in-house machine modeled on XState, with no third-party library:
 
 ## Approval
 
-A recommendation is not adoption: XState is a new production dependency and a
-machine is a design change, so both need approval unless the request or
-approved plan already includes them.
+When the project already uses XState, or the SwiftUI project already has its
+machine, build with it directly. When adding XState would be a new production
+dependency, ask once through `AskUserQuestion`, with the machine as the
+recommended option, unless the request or approved plan already includes it.
