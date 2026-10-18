@@ -64,3 +64,34 @@ paths:
   two statements.
 - Build test input with `make<Thing>()` helpers that take an options object
   with defaults, so each case states only what it changes.
+
+## Validation with Zod
+
+- Validate data whose shape isn't guaranteed by the type system with a Zod
+  schema at the boundary where it enters: request bodies, URL and search
+  params, parsed JSON, storage, environment variables, API responses, and
+  messages. Don't hand-write type guards or cast `unknown` to a type instead.
+- Use `safeParse` when invalid input is an expected branch, and handle the
+  failure explicitly. Use `parse` only when invalid data means a bug.
+- Reuse and compose existing schemas, including generated ones, with
+  `extend`, `pick`, `omit`, `discriminatedUnion`, and `transform` instead of
+  redefining a shape.
+- Match the Zod version and import path the project already uses. If the
+  project validates with another library, follow it instead.
+
+## Error handling
+
+- Name the caught value `cause`. Use a bare `catch {}` when it's unused.
+- At a service or I/O boundary, rethrow with the inputs needed to debug,
+  following the `code-style` rule on errors. Without a project error type, use
+  `new Error(message, { cause })`.
+- When catching only to report, such as a callback or telemetry, rethrow the
+  same `cause` afterwards. Don't report cancellations (`AbortError`), including
+  ones wrapped in another error.
+- When a failure is expected and has a fallback, such as `JSON.parse` or
+  `new RegExp` on external input, wrap only that call and return the fallback.
+- Swallow an error only in best-effort side work whose failure must not break
+  the main flow, such as user-supplied callbacks, and log it with context.
+- When one plugin, rule, or batch item fails, isolate it: log it with context,
+  turn it into a result such as an issue or `undefined`, and continue.
+- Use `try/finally` for cleanup or rescheduling that must run either way.

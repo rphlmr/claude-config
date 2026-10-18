@@ -122,6 +122,7 @@ exclusion patterns assume the clone directory is named `claude-config`.
 │   ├── commit-message.md
 │   └── pr-changelog.md
 ├── rules/
+│   ├── architecture.md
 │   ├── code-style.md
 │   ├── react.md
 │   └── typescript.md
@@ -239,10 +240,10 @@ The global instructions and agent prompts follow the Opus 5.5 prompting guide:
   "double-check your work" steps, which cause over-verification on Opus 5.x.
 - `CLAUDE.md` holds only what every session needs and stays under the 200-line
   target from the official memory documentation, counted with lines wrapped at
-  80 columns. Code style, TypeScript and React rules live in `rules/` with
-  `paths:` frontmatter, so they load only when Claude reads matching files
-  (code style on the source files of common languages), and the state
-  machine guidance is a skill.
+  80 columns. Code style, architecture, TypeScript and React rules live in
+  `rules/` with `paths:` frontmatter, so they load only when Claude reads
+  matching files (code style on the source files of common languages), and the
+  state machine guidance is a skill.
 
 ### State machine preference
 
