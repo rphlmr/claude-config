@@ -1,5 +1,12 @@
 # Changelog
 
+## [4.2.0](https://github.com/rphlmr/claude-config/compare/v4.1.0...v4.2.0) (2026-10-18)
+
+
+### Features
+
+* **rules:** add zod, error handling, and architecture guidance ([71fa3d6](https://github.com/rphlmr/claude-config/commit/71fa3d6e75a98e9cb7813ede79904fda971bcf4d))
+
 ## [4.1.0](https://github.com/rphlmr/claude-config/compare/v4.0.0...v4.1.0) (2026-10-16)
 
 
