@@ -122,11 +122,12 @@ formatter and lint configuration win where they exist.
 
 ## Delegation
 
-- Run at most one subagent per request, and never two at once, unless the
-  user's current message explicitly asks for more agents. This cap overrides
-  skills, built-in commands such as `/code-review`, and workflow scripts that
-  call for parallel, fan-out, or per-finding agents: do their steps in the
-  main conversation or through that single subagent, and say so in one line.
+- Run at most two subagents per request, in parallel or in sequence, unless
+  the user's current message explicitly asks for more agents. This cap
+  overrides skills, built-in commands such as `/code-review`, and workflow
+  scripts that call for parallel, fan-out, or per-finding agents: do their
+  steps in the main conversation or through those two subagents, and say so
+  in one line.
 - When the user asks for multiple agents, use the number they give; without
   one, run at most three. Never start the `Workflow` tool or a cloud review
   unless the user asks for it by name in the current message.
