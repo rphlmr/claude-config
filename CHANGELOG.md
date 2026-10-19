@@ -1,5 +1,13 @@
 # Changelog
 
+## [4.3.0](https://github.com/rphlmr/claude-config/compare/v4.2.0...v4.3.0) (2026-10-19)
+
+
+### Features
+
+* **instructions:** raise subagent cap to two per request ([c706aa3](https://github.com/rphlmr/claude-config/commit/c706aa326e815cfb28af63adef298751192be5d6))
+* **rules:** add kebab-case file naming rule ([106283e](https://github.com/rphlmr/claude-config/commit/106283e75c21c8b0ae420ed6a0bde416d1594e12))
+
 ## [4.2.0](https://github.com/rphlmr/claude-config/compare/v4.1.0...v4.2.0) (2026-10-18)
 
 
