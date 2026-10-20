@@ -9,6 +9,7 @@ This repository is the source of truth for:
 - custom agents (subagents);
 - global `CLAUDE.md`;
 - global rules;
+- output styles;
 - `claude-rc`, a launcher for background Remote Control servers, with its
   SwiftBar menu bar plugin.
 
@@ -31,6 +32,7 @@ your own control.
   - [Custom agents](#custom-agents)
   - [Global `CLAUDE.md`](#global-claudemd)
   - [Global rules](#global-rules)
+  - [Output styles](#output-styles)
 - [`sync-skills.sh`](#sync-skillssh)
 - [Typical workflow](#typical-workflow)
   - [Update a skill](#update-a-skill)
@@ -64,7 +66,8 @@ Make the management scripts executable:
 chmod +x sync-skills.sh sync-claude-md.sh
 ```
 
-Synchronize skills, custom agents, global instructions, and rules:
+Synchronize skills, custom agents, global instructions, rules, and output
+styles:
 
 ```bash
 ./sync-skills.sh
@@ -91,6 +94,8 @@ The resulting layout is:
          ▼                  ▼                  ▼                  ▼
 ~/.claude/skills/* ~/.claude/agents/* ~/.claude/CLAUDE.md ~/.claude/rules/*
 ```
+
+`output-styles/` is copied the same way, to `~/.claude/output-styles/*`.
 
 Both scripts honor `CLAUDE_CONFIG_DIR` when you have moved the Claude Code
 configuration directory.
@@ -127,6 +132,8 @@ exclusion patterns assume the clone directory is named `claude-config`.
 │   ├── file-naming.md
 │   ├── react.md
 │   └── typescript.md
+├── output-styles/
+│   └── scannable.md
 ├── skills/
 │   ├── apple-hig/
 │   │   ├── SKILL.md
@@ -374,6 +381,7 @@ Canonical paths:
 ```text
 ~/workspace/claude-config/CLAUDE.md
 ~/workspace/claude-config/agents/*
+~/workspace/claude-config/output-styles/*
 ~/workspace/claude-config/rules/*
 ~/workspace/claude-config/skills/*
 ```
@@ -421,6 +429,19 @@ Rules live under `./rules/`. `sync-claude-md.sh` also copies them into
 `~/.claude/rules/`, again only when the contents differ. Each rule sets `paths:`
 frontmatter, so Claude Code loads it only when Claude reads a matching file.
 Only rule files present in this repository are replaced.
+
+### Output styles
+
+Output styles live under `./output-styles/`. `sync-claude-md.sh` also copies
+them into `~/.claude/output-styles/`, only when the contents differ. An output
+style replaces part of the system prompt, so it shapes replies more strongly
+than `CLAUDE.md`. It applies only to the main conversation, never to subagents.
+
+`scannable.md` holds the reply formatting rules for a reader with ADHD, and
+keeps Claude Code's coding instructions (`keep-coding-instructions: true`).
+Select it in the desktop app settings, or with `/config` in a `claude`
+terminal. Rules that also cover subagents, commits, and documents, such as the
+em dash ban, stay in `CLAUDE.md`.
 
 ## `sync-skills.sh`
 
@@ -472,10 +493,10 @@ no restart.
 ### Update global instructions or rules
 
 ```bash
-$EDITOR CLAUDE.md  # or rules/<topic>.md
+$EDITOR CLAUDE.md  # or rules/<topic>.md, output-styles/<name>.md
 ./sync-claude-md.sh
 git diff
-git add CLAUDE.md rules
+git add CLAUDE.md rules output-styles
 git commit
 ```
 
@@ -610,6 +631,7 @@ Changes made directly under:
 ~/.claude/skills
 ~/.claude/agents
 ~/.claude/rules
+~/.claude/output-styles
 ~/.claude/CLAUDE.md
 ```
 
@@ -625,6 +647,7 @@ This repository manages:
 ```text
 ~/.claude/CLAUDE.md
 ~/.claude/agents/*
+~/.claude/output-styles/*
 ~/.claude/rules/*
 ~/.claude/skills/*
 ```

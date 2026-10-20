@@ -11,6 +11,9 @@ TARGET="$CLAUDE_DIR/CLAUDE.md"
 RULES_SOURCE="$REPO_DIR/rules"
 RULES_TARGET="$CLAUDE_DIR/rules"
 
+OUTPUT_STYLES_SOURCE="$REPO_DIR/output-styles"
+OUTPUT_STYLES_TARGET="$CLAUDE_DIR/output-styles"
+
 if [[ ! -f "$SOURCE" ]]; then
   echo "Missing source file: $SOURCE" >&2
   exit 1
@@ -41,5 +44,15 @@ if [[ -d "$RULES_SOURCE" ]]; then
     [[ -e "$source" ]] || continue
 
     copy_if_changed "$source" "$RULES_TARGET/$(basename "$source")"
+  done
+fi
+
+if [[ -d "$OUTPUT_STYLES_SOURCE" ]]; then
+  mkdir -p "$OUTPUT_STYLES_TARGET"
+
+  for source in "$OUTPUT_STYLES_SOURCE"/*.md; do
+    [[ -e "$source" ]] || continue
+
+    copy_if_changed "$source" "$OUTPUT_STYLES_TARGET/$(basename "$source")"
   done
 fi
