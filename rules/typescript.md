@@ -21,6 +21,8 @@ paths:
 - Give a value that drives logic a literal union or key, and map it to display
   text in one place (`saveStateLabels[state]`). Never compare, match, or parse
   user-facing text or error messages to decide behavior.
+- Write status and state literals in snake_case (`"read_only"`,
+  `"rolled_back"`), not kebab-case.
 - Name generic parameters for their role when there is more than one or the
   meaning is not obvious (`TActorIdPrefix`, `Output`), not `T` and `U`.
 
