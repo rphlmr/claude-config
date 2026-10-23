@@ -1,6 +1,6 @@
 schema_version: "1.1"
 name: review-premise-guard-and-phrase-logic
 expected_outcome: |
-  Reports that shouldWarnOnLeave compares the display label to "Saved" while getSaveStatus returns "Saved locally", so the leave warning always shows, ranked medium or high with the code that shows it, and recommends a status key instead of comparing text; reports that the legacy { body } reader in loadDraft guards against drafts the README says never existed, and recommends deleting it rather than keeping it; changes no file.
+  Reports that shouldWarnOnLeave decides behavior by comparing display text ("Saved") produced by getSaveStatus, which works today but breaks silently when the label is reworded, and recommends a state key or the saved flag instead; reports that the body-shaped draft branch in loadDraft guards against drafts that docs/decisions.md says cannot exist, and recommends deleting it rather than keeping it as robustness; changes no file.
 context:
   scaffold_script: place-files.sh

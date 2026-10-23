@@ -4,4 +4,4 @@ focus: trace
 weight: 1
 ---
 
-The review reports that shouldWarnOnLeave decides behavior by comparing the display text to "Saved", while getSaveStatus in status.ts returns "Saved locally", so the leave warning shows even when the draft is saved. It ranks this medium or high, not only as a nit or style note.
+The review flags that shouldWarnOnLeave decides behavior by comparing the toolbar label to "Saved", the text getSaveStatus in status.ts returns, as a real finding: it works today but silently breaks the leave warning when the label is reworded or translated. Mentioning it only as an optional style aside, or not at all, fails.

@@ -8,7 +8,7 @@ export function saveDraft(storage: Storage, draft: Draft): void {
   storage.setItem(toDraftKey(draft.id), JSON.stringify(draft));
 }
 
-/** Drafts saved by older versions kept their text in `body`. */
+/** A draft whose text sits in `body`, as some stored drafts may have it. */
 interface LegacyDraft {
   id: string;
   title?: string;
@@ -28,7 +28,7 @@ export function loadDraft(storage: Storage, id: string): Draft | null {
 
   const value: unknown = JSON.parse(stored);
 
-  // Keep drafts from older versions readable.
+  // Tolerate drafts stored with `body` instead of `text`, so a malformed draft never loses its text.
   if (isLegacyDraft(value)) {
     return { id: value.id, title: value.title ?? "Untitled", text: value.body, updatedAt: new Date(0).toISOString() };
   }
