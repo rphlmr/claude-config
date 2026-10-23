@@ -1,5 +1,12 @@
 # Changelog
 
+## [4.4.0](https://github.com/rphlmr/claude-config/compare/v4.3.0...v4.4.0) (2026-10-20)
+
+
+### Features
+
+* **output-styles:** add Scannable output style for reply formatting ([b62941f](https://github.com/rphlmr/claude-config/commit/b62941f6ec3e5bddf5c7a1ddfd02a5cf5523cc16))
+
 ## [4.3.0](https://github.com/rphlmr/claude-config/compare/v4.2.0...v4.3.0) (2026-10-19)
 
 
