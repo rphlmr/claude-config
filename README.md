@@ -140,12 +140,14 @@ exclusion patterns assume the clone directory is named `claude-config`.
 │   │   ├── evals/
 │   │   └── scripts/
 │   ├── brainstorm/
+│   ├── devrel-voice/
 │   ├── commit-message/
 │   │   ├── SKILL.md
 │   │   └── evals/
 │   ├── pr-changelog/
 │   ├── session-handoff/
-│   └── state-machines/
+│   ├── state-machines/
+│   └── trusted-review/
 ├── sync-skills.sh
 ├── sync-claude-md.sh
 ├── sync-remote-control.sh
@@ -158,10 +160,12 @@ exclusion patterns assume the clone directory is named `claude-config`.
 | ---------------------------- | ---------------------------------------------------------------------------------------------- | -------------------- | ------------------------------------------------------------------------------------------------------------------------------------------ |
 | `/apple-hig`                 | Answer iOS, iPadOS and macOS design questions from Apple's latest HIG text.                    | Yes                  | None                                                                                                                                       |
 | `/brainstorm`                | Turn a rough idea into an agreed design with focused questions before code.                    | No                   | None                                                                                                                                       |
+| `/devrel-voice`              | Write posts and tutorials as a senior DevRel teaching, not an AI explaining.                     | Yes                  | None                                                                                                                                       |
 | `/commit-message`            | Generate one Conventional Commit message from the staged diff.                                 | Yes                  | `commit-message`                                                                                                                           |
 | `/pr-changelog`              | Generate PR/MR text, review prep, release notes, or a changelog from committed branch changes. | Yes                  | `pr-changelog`                                                                                                                             |
 | `/session-handoff`           | Create a self-contained prompt for continuing established work in a fresh Claude Code session. | No                   | None                                                                                                                                       |
 | `/state-machines`            | Make explicit state machines the default for states, workflows, and sequences.                | Yes                  | None                                                                                                                                       |
+| `/trusted-review`            | Prove, rank, and verify review findings; fix by impact, not by count.                         | Yes                  | None                                                                                                                                       |
 
 Skills that Claude can't invoke set `disable-model-invocation: true`. Type the
 command at the start of a message to run them, for example `/session-handoff`.
