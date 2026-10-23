@@ -1,6 +1,6 @@
 ---
 name: state-machines
-description: Makes explicit state machines the default design for features whose correctness depends on state transitions, states, workflows, or sequences, using XState in TypeScript and an in-house XState-style machine in SwiftUI. Use when analyzing, reviewing, planning, or building multi-step workflows, async lifecycles with retry or cancellation, connection, session, sync, or playback lifecycles, or UI with mutually exclusive modes, and when code shows boolean flag clusters, status values set from several places, or events handled in the wrong state, even if the user doesn't mention state machines.
+description: Makes explicit state machines the default design for features whose correctness depends on state transitions, states, workflows, or sequences, using XState in TypeScript and an in-house XState-style machine in SwiftUI. Use when analyzing, reviewing, planning, or building multi-step workflows, async lifecycles with retry or cancellation, connection, session, sync, or playback lifecycles, or UI with mutually exclusive modes, and when code shows boolean flag clusters, status values set from several places, or events handled in the wrong state, even if the user doesn't mention state machines. Not for data loading or mutations that the framework or a data library already handles, such as React Router loaders and actions.
 ---
 
 # State Machines
@@ -36,6 +36,15 @@ machine and sketch its states, events, guards, and effects.
 
 Skip a machine for CRUD forms, stateless transforms, and single-flag toggles,
 where it adds ceremony without removing risk.
+
+Skip it for data loading and mutations that the framework or a data library
+already owns, such as React Router loaders, actions, and fetchers, or a query
+library the project uses. Their pending, error, and revalidation states
+already model the request lifecycle, so fix flag clusters around a request by
+moving it into the loader or action. When a flow around them still needs a
+machine, such as a multi-step wizard, the machine drives the steps and submits
+through the framework (`fetcher.submit`, `useSubmit`) instead of fetching in
+its own actors.
 
 ## TypeScript
 

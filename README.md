@@ -265,7 +265,8 @@ for states, workflows, and sequences: XState for TypeScript, and an in-house
 XState-style machine with no third-party library for SwiftUI. `CLAUDE.md`
 points review, planning, and implementation work at the skill. Claude builds
 with XState directly where the project already uses it, and asks once before
-adding it as a new dependency.
+adding it as a new dependency. Data loading and mutations stay with the
+framework, such as React Router loaders and actions, instead of a machine.
 
 ### Apple Human Interface Guidelines
 
