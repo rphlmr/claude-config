@@ -165,7 +165,7 @@ exclusion patterns assume the clone directory is named `claude-config`.
 | `/pr-changelog`              | Generate PR/MR text, review prep, release notes, or a changelog from committed branch changes. | Yes                  | `pr-changelog`                                                                                                                             |
 | `/session-handoff`           | Create a self-contained prompt for continuing established work in a fresh Claude Code session. | No                   | None                                                                                                                                       |
 | `/state-machines`            | Make explicit state machines the default for states, workflows, and sequences.                | Yes                  | None                                                                                                                                       |
-| `/trusted-review`            | Prove, rank, and verify review findings; fix by impact, not by count.                         | Yes                  | None                                                                                                                                       |
+| `/trusted-review`            | Prove, rank, and verify findings, read as a maintainer; fix by impact, not by count.          | Yes                  | None                                                                                                                                       |
 
 Skills that Claude can't invoke set `disable-model-invocation: true`. Type the
 command at the start of a message to run them, for example `/session-handoff`.

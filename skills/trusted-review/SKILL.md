@@ -1,6 +1,6 @@
 ---
 name: trusted-review
-description: Makes code reviews, audits, and review-fix rounds trustworthy, with proven findings ranked by impact, a verification pass, and fixes limited to what matters. Use when reviewing a diff, branch, PR, or feature, when auditing code, when acting on review findings or reports, or when planning a review or fix round.
+description: Makes code reviews, audits, and review-fix rounds trustworthy, with proven findings ranked by impact, a maintainer's read of fit and public contracts, a verification pass, and fixes limited to what matters. Use when reviewing a diff, branch, PR, or feature, when auditing code, when acting on review findings or reports, or when planning a review or fix round.
 ---
 
 # Trusted Review
@@ -15,11 +15,29 @@ findings over many plausible ones.
   matters.
 - Read the whole flow the change touches, not only the diff lines.
 
+## Read it as a maintainer
+
+Also read the change as an experienced contributor to this repository who
+decides whether to merge it:
+
+- Does it follow the repository's patterns and reuse its existing helpers?
+- Is there a clearly simpler way to the same result?
+- Does it change a public contract (an export, a CLI flag, a config key,
+  stored data) without a migration or a note for its users?
+- Would its tests fail if the change broke?
+- Are docs, types, or the changelog left out of sync?
+- Does the diff carry unrelated changes?
+
+Rank these by what they cost later. A broken public contract is high or
+medium. A duplicated helper or a departure from a pattern others will copy
+is medium or low. A one-off naming choice is a nit.
+
 ## Prove each finding
 
 - A finding is **proven** when a failing test, a reproduction, a log, or a
-  screenshot shows it. Otherwise label it **suspicion** and say what would
-  prove it.
+  screenshot shows it. A maintainer finding is proven by the code that shows
+  it: the helper it duplicates, the caller or doc it breaks, with file and
+  line. Otherwise label it **suspicion** and say what would prove it.
 - Give each finding: where (file and line), what goes wrong for the user or
   the data, when it happens, and the proof.
 - Before reporting a high or medium finding, check it once more yourself
