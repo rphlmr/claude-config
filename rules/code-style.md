@@ -66,8 +66,12 @@ configuration take precedence. Do not reformat unrelated code.
 
 ## Comments and Docs
 
-- Comment only non-obvious constraints, invariants, trade-offs, or external
-  requirements, such as a runtime quirk or why a workaround exists.
+- Default to no inline comment. Write one only for an invariant the code
+  cannot show, whose removal would cause a bug a reader could not foresee.
+  Never narrate what the product does, why the UI looks the way it does, or
+  how a library behaves (`// A temporary copy: edits stay in memory until
+  ...`, `{/* Phones show "Run" alone ... */}`). Say it with a name, a type,
+  or a test, or leave it to the commit message.
 - Keep a comment directly above the code it describes, with a blank line
   before it when it starts a new logical step.
 - In a long function made of distinct steps, open each step with a short
