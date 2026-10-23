@@ -86,6 +86,12 @@ criteria, and validation. Resolve material decisions before calling it final.
 - Prefer a visible, documented limitation over a hidden mechanism for a rare
   case. Ask before adding a new mechanism (a retry, a fallback, a watchdog, a
   cache, a new state) that only a rare case needs.
+- Before guarding against a case, check it against the project's premises:
+  what data can exist, what the product promises, what the types allow. A
+  case a premise rules out gets no code, such as a reader for data an
+  unreleased version never stored.
+- Validate untrusted input once, where it enters. Trust data the code wrote
+  itself and values the types or the storage schema already constrain.
 - Create modules when they improve boundaries, discoverability, or reuse.
 - Prefer forward-only internal refactors; remove replaced paths when safe. Add
   compatibility aliases or migration layers only when required.

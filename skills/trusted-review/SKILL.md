@@ -27,6 +27,11 @@ decides whether to merge it:
 - Would its tests fail if the change broke?
 - Are docs, types, or the changelog left out of sync?
 - Does the diff carry unrelated changes?
+- Does it guard against a case the project's premises rule out, re-check
+  data it wrote itself, or keep a compatibility path no stored data needs?
+- Does it decide behavior by comparing display text or error messages?
+- Does it stack a second mechanism (a limit, a retry, a fallback) on a
+  concern another one already covers?
 
 Rank these by what they cost later. A broken public contract is high or
 medium. A duplicated helper or a departure from a pattern others will copy
@@ -70,6 +75,10 @@ A review alone changes no code. When the user asks for fixes:
   Ask before adding one (a retry, a fallback, a watchdog, a cache, a state).
 - Fix code added by the previous round with the same care: new code is where
   the next findings come from.
+- Before fixing a finding, check whether it exists only because a premise was
+  ignored. Then the fix deletes code instead of guarding it.
+- A fix round should not grow the code by default. Report its net lines
+  added, and for each fix that adds code, the smaller option you rejected.
 
 ## Close the round
 

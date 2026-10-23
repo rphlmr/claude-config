@@ -18,6 +18,9 @@ paths:
   so the narrow inferred type survives.
 - Derive types from their source instead of restating them: `z.output<typeof
   RuleSchema>`, `ReturnType<typeof createFlowMachine>`, indexed access types.
+- Give a value that drives logic a literal union or key, and map it to display
+  text in one place (`saveStateLabels[state]`). Never compare, match, or parse
+  user-facing text or error messages to decide behavior.
 - Name generic parameters for their role when there is more than one or the
   meaning is not obvious (`TActorIdPrefix`, `Output`), not `T` and `U`.
 
