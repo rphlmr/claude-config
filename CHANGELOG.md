@@ -1,5 +1,14 @@
 # Changelog
 
+## [4.5.0](https://github.com/rphlmr/claude-config/compare/v4.4.0...v4.5.0) (2026-10-23)
+
+
+### Features
+
+* ✨ add a maintainer lens to trusted-review, with an eval, and fix the clean-code eval fixture ([5a91303](https://github.com/rphlmr/claude-config/commit/5a91303b7a9707691b8d42fc767426c9b9ebc277))
+* ✨ add evals for trusted-review and devrel-voice, and tighten doc comment rules ([fc57b86](https://github.com/rphlmr/claude-config/commit/fc57b86efa6380448e7593da844406fd9398bc44))
+* ✨ add trust rules, a trusted-review skill and a devrel-voice skill ([d1c00a6](https://github.com/rphlmr/claude-config/commit/d1c00a6b6ba4cc8a5cec84f348bac02b77b9af06))
+
 ## [4.4.0](https://github.com/rphlmr/claude-config/compare/v4.3.0...v4.4.0) (2026-10-20)
 
 
