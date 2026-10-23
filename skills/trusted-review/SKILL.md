@@ -77,8 +77,7 @@ A review alone changes no code. When the user asks for fixes:
   the next findings come from.
 - Before fixing a finding, check whether it exists only because a premise was
   ignored. Then the fix deletes code instead of guarding it.
-- A fix round should not grow the code by default. Report its net lines
-  added, and for each fix that adds code, the smaller option you rejected.
+- For each fix that adds code, name the smaller option you rejected.
 
 ## Close the round
 
