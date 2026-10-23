@@ -1,5 +1,17 @@
 # Changelog
 
+## [4.6.0](https://github.com/rphlmr/claude-config/compare/v4.5.0...v4.6.0) (2026-10-23)
+
+
+### Features
+
+* ✨ guard against premise-blind code and UI text used as logic, keep review fix rounds from growing the code, and add a trusted-review eval for both ([db3e9c6](https://github.com/rphlmr/claude-config/commit/db3e9c6203f216c9a864926b94cdf2747bb5f231))
+
+
+### Bug Fixes
+
+* 🐛 leave data loading and mutations to the framework's loaders and actions instead of a state machine, with an eval ([a006c24](https://github.com/rphlmr/claude-config/commit/a006c24eea39d4724a39b836a1cbe2233dd3ee89))
+
 ## [4.5.0](https://github.com/rphlmr/claude-config/compare/v4.4.0...v4.5.0) (2026-10-23)
 
 
