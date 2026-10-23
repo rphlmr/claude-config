@@ -1,6 +1,6 @@
 ---
 name: trusted-review
-description: Makes code reviews, audits, and review-fix rounds trustworthy, with proven findings ranked by impact, a verification pass, and fixes limited to what matters. Use when reviewing a diff, branch, PR, or feature, when auditing code, when acting on review findings or reports, or when planning a review or fix round, even if the user only says "review" or "check this".
+description: Makes code reviews, audits, and review-fix rounds trustworthy, with proven findings ranked by impact, a verification pass, and fixes limited to what matters. Use when reviewing a diff, branch, PR, or feature, when auditing code, when acting on review findings or reports, or when planning a review or fix round.
 ---
 
 # Trusted Review
@@ -22,9 +22,9 @@ findings over many plausible ones.
   prove it.
 - Give each finding: where (file and line), what goes wrong for the user or
   the data, when it happens, and the proof.
-- Before reporting a high or medium finding, check it once more against the
-  current code, as an attempt to disprove it. Drop it or downgrade it when
-  the check fails, and say so.
+- Before reporting a high or medium finding, check it once more yourself
+  against the current code, as an attempt to disprove it. Drop or downgrade
+  it when the check fails, and say so.
 
 ## Rank by impact
 
@@ -41,8 +41,13 @@ findings over many plausible ones.
 
 ## Fix by impact
 
-- Fix highs and mediums, each with a test that fails before the fix.
-- Fix lows and nits only when the user picks them.
+A review alone changes no code. When the user asks for fixes:
+
+- When the user names the findings to fix, fix exactly those. Their choice
+  wins over the ranking.
+- Otherwise, fix highs and mediums, and list lows and nits for the user to
+  pick.
+- Give each fix a test that fails before it and passes after.
 - Prefer the smallest fix, or a visible limitation, over a new mechanism.
   Ask before adding one (a retry, a fallback, a watchdog, a cache, a state).
 - Fix code added by the previous round with the same care: new code is where
@@ -50,7 +55,7 @@ findings over many plausible ones.
 
 ## Close the round
 
-- Run the full test suite, e2e, and gates once at the end of the round, and
-  report the real output.
-- After a fix round, do one fresh review of the whole flow, not another
-  per-finding review. Stop there unless it finds a high or medium.
+- After a fix round, run the full test suite, e2e, and gates once, and
+  report the real output. A review alone runs only what proves its findings.
+- Do not start another review round on your own. When the user asks for
+  one after a fix round, review the whole flow once, not each finding again.

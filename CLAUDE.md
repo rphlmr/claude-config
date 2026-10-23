@@ -137,8 +137,6 @@ The user relies on you as a second pair of eyes, so every claim must hold.
   you check it against the current code or output.
 - "Nothing important found" is a valid result. Never invent or inflate
   findings to fill a report.
-- When a check could not run or was skipped, say so in the same place you
-  report the result.
 - Report checks on behavior, not on style or wording rules.
 
 ## Delegation

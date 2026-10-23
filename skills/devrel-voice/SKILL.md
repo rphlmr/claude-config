@@ -1,53 +1,78 @@
 ---
 name: devrel-voice
-description: Writes blog posts, articles, tutorials, talk scripts, and social posts in the user's own voice, a senior developer and DevRel teaching from experience, not an AI explaining a topic. Use when drafting, rewriting, or reviewing any of these, even if the user only says "write a post about X" or "make this sound like me".
+description: Writes blog posts, articles, upgrade guides, tutorials, slides, and social posts in the user's voice, a senior developer and DevRel who walks the reader through a change and what it breaks, not an AI explaining a topic. Use when drafting, rewriting, or reviewing any of these, even if the user only says "write a post about X" or "make this sound like me".
 ---
 
 # DevRel Voice
 
-The author is a senior developer and DevRel who teaches. The reader should
-feel a person handing over what they learned the hard way, with material
-they can use today.
+The reader is a developer with a real project who wants to know what changes
+for them, what can break, and what to type. The author has already hit the
+traps and hands over the fix.
 
 ## Find the voice first
 
-When the project has posts or drafts the user wrote, read two of them before
-writing, and match their sentence length, openings, and humor. Their text
-wins over this skill.
+When the project already has published articles or posts, read two before
+writing and match them: openings, heading style, callouts, and how code is
+shown. Their text wins over this skill.
 
-## Teach, don't explain
+## Shape of an article
 
-| AI explaining | The author teaching |
-| --- | --- |
-| "X is a powerful feature that allows you to..." | "I hit this last week: ..." then the fix |
-| Defines the topic, then lists its benefits | Starts from a real problem the reader has |
-| Neutral, covers every option equally | Picks one, says why, names when it breaks |
-| Ends with a recap of what was said | Ends with what to do next, or a link to run it |
+- Open with a short "in short" block: where the reader stands, the one
+  biggest change, and the exact versions the examples use, before and after.
+  A single section still names both versions in its first lines: the reader
+  may land on it from a link.
+- Headings state the change or the action, not a topic: "Config moves into
+  each route", "Don't just delete `timeout`", "Before you start". Never
+  "Overview" or "Considerations".
+- For each change: what it is, a before/after code pair, what to do, and
+  what breaks if you get it wrong.
+- End on the next step: a checklist, a command, or the link to the next
+  article. No recap.
 
-- Open with the problem or the result, in one or two sentences. No "In this
-  article, we will".
-- Write in the first person when it's experience ("I", "we" for the team),
-  and talk to the reader as "you".
-- Give opinions with their reason: "I'd pin the RC, because `@rc` drifts to
-  snapshot builds."
-- Share the material: runnable code, the exact command, the config line, the
-  error message the reader will see, a playground link.
-- Show the trap before the fix when a trap exists. Seniors teach the edge
-  cases they paid for.
-- Keep only what the reader needs to act. Cut background they can look up.
+## How to explain
 
-## Sound like a person
+- Talk to the reader as "you", in the present tense: "You now set it once,
+  on the route". Write instructions, not praise for the feature.
+- Define a term once, in bold, in one plain sentence, then use it. A small
+  analogy is fine when it is exact ("in either order, like a + b = b + a").
+- Make abstract cases concrete with a tiny scenario and named people ("Alice
+  and Bob each open a branch") when the case is hard to picture. A short
+  rewrite doesn't need one.
+- Add the judgment call a senior would make: when the new option is safe and
+  when it hurts ("retrying a `GET` is fine, retrying a `POST` that charges a
+  card is not").
+- Show the trap with its real consequences: the exact error message, the
+  exit code, the prompt the tool shows, the data that gets lost. Put the
+  consequence in bold: "**Your requests fail.**"
+- Cover the paths a reader might take, including the tempting wrong one, and
+  say which to pick: "You want neither. Use X instead."
+- Say who a change does not affect, so those readers can skip it.
+- Be honest about limits: what is not fixed yet, what is expected, and what
+  the team is working on. Mark later changes with a dated update note
+  instead of silently rewriting the text.
+
+## Code and material
+
+- Every example runs and type-checks against the stated version. Give the
+  real install commands, for every package manager the project supports.
+- Prefer before/after pairs with the removed and added lines marked.
+- Keep one small running example across the article instead of a new one
+  per section.
+
+## Sentences
 
 - Short sentences, plain words, concrete nouns. One idea per paragraph.
 - No AI tells: em dashes, "dive into", "leverage", "seamless", "robust",
-  "game-changer", "it's worth noting", "let's explore", rhetorical question
-  headings, triplet lists of adjectives, closing recaps.
-- Headings say what the section gives the reader ("Pin the RC"), not a topic
-  label ("Versioning considerations").
-- Every claim about behavior is checked against the code or a run; say which
-  version it holds for.
+  "powerful", "it's worth noting", "let's explore", question headings,
+  adjective triplets, closing recaps.
+
+## Rewriting someone's text
+
+Keep every fact and add none: no new advice, numbers, steps, names, or
+scenarios the original didn't have. Cut the hype, keep the meaning.
 
 ## Before handing a draft over
 
-Read it as the reader. Rewrite any paragraph that sounds like a product page
-or a textbook. Do not report this pass; just hand over the draft.
+Read it as the reader with a project open. Cut any sentence that doesn't
+change what they type or decide, and rewrite any paragraph that sounds like a
+product page. Hand over the draft without commenting on this pass.
