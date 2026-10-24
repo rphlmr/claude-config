@@ -1,5 +1,13 @@
 # Changelog
 
+## [4.11.0](https://github.com/rphlmr/claude-config/compare/v4.10.0...v4.11.0) (2026-10-24)
+
+
+### Features
+
+* ✨ allow inline comments that give a short reason the code cannot show, such as a browser quirk or a security choice, while still banning comments that narrate the code and step headers that grow into descriptions ([fed8bfa](https://github.com/rphlmr/claude-config/commit/fed8bfa8e8e06f3c7568b0ccd601f2b78c77feac))
+* ✨ keep state machines free of the framework by having them only declare a save that the component provides, with fetcher.submit in a new React Router rule, or a direct call when the machine needs the outcome that fetcher.submit cannot return ([de934ad](https://github.com/rphlmr/claude-config/commit/de934ad1e7d1f4e752b2fd92ef0863900574e5f0))
+
 ## [4.10.0](https://github.com/rphlmr/claude-config/compare/v4.9.0...v4.10.0) (2026-10-24)
 
 
