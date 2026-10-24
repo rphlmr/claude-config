@@ -1,5 +1,14 @@
 # Changelog
 
+## [4.8.0](https://github.com/rphlmr/claude-config/compare/v4.7.0...v4.8.0) (2026-10-24)
+
+
+### Features
+
+* ✨ name XState events in dot.case, as Stately recommends for v5, and keep states, machine ids and wire messages out of the rename ([289eb2b](https://github.com/rphlmr/claude-config/commit/289eb2b361078f38cd8b8e7930cd31c4c5d38627))
+* ✨ raise the default subagent cap to three per request ([2db4c94](https://github.com/rphlmr/claude-config/commit/2db4c94a0b455256d9f8ad19eb45864125f8d07a))
+* ✨ rank implicit state machines as medium at least so they land in the fix set ([934143b](https://github.com/rphlmr/claude-config/commit/934143bc5c7205c66780c3e81e6c992203aa66e0))
+
 ## [4.7.0](https://github.com/rphlmr/claude-config/compare/v4.6.0...v4.7.0) (2026-10-24)
 
 
