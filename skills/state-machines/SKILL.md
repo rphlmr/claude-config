@@ -1,6 +1,6 @@
 ---
 name: state-machines
-description: Makes explicit state machines the default design for features whose correctness depends on state transitions, states, workflows, or sequences, using XState in TypeScript and an in-house XState-style machine in SwiftUI. Use when analyzing, reviewing, planning, or building multi-step workflows, async lifecycles with retry or cancellation, connection, session, sync, or playback lifecycles, or UI with mutually exclusive modes, and when code shows boolean flag clusters, status values set from several places, or events handled in the wrong state, even if the user doesn't mention state machines. Not for data loading or mutations that the framework or a data library already handles, such as React Router loaders and actions.
+description: Makes explicit state machines the default design for features whose correctness depends on state transitions, states, workflows, or sequences, using XState in TypeScript and an in-house XState-style machine in SwiftUI. Use when analyzing, reviewing, planning, or building multi-step workflows, async lifecycles with retry or cancellation, connection, session, sync, or playback lifecycles, or UI with mutually exclusive modes, and when code shows boolean flag clusters, status values set from several places, events handled in the wrong state, or a machine that only mirrors status, even if the user doesn't mention state machines. Not for data loading or mutations that the framework or a data library already handles, such as React Router loaders and actions.
 ---
 
 # State Machines
@@ -21,16 +21,30 @@ or chained effects only for the cases listed under "When to skip".
 
 ## When to recommend one
 
-When analyzing, reviewing, or planning code, look for implicit transition logic:
+When analyzing, reviewing, auditing, or planning code, every unit that moves
+through phases on events, messages, callbacks, timers, or async results
+counts: a class, a factory closure, a hook or component, a module with
+top-level state, or a worker entry. Its size and the absence of a known bug
+don't exempt it. These signals show an implicit machine:
 
 - boolean flag clusters (`isLoading`, `isError`, `isSubmitting`) that allow
   impossible combinations;
-- status values mutated from several places;
-- transition rules spread across handlers or effects;
+- a hand-rolled status union, or status values mutated from several places;
+- transition rules spread across handlers, effects, or methods that call each
+  other;
+- hand-built locks and gates, such as promise tails or `withResolvers`
+  waiters;
 - bugs where an event arrives in the wrong state.
 
-Where these signals appear in a transition-heavy feature, recommend a state
-machine and sketch its states, events, guards, and effects.
+A machine that only mirrors status counts too. When the code decides first
+and then sends the machine an event, the machine refuses nothing and the real
+transitions stay implicit, so recommend moving the decisions into its guards
+and actors.
+
+For each unit, recommend a state machine and sketch its states, events,
+guards, and effects. Call a unit fine only when "When to skip" covers it, and
+name that reason. When you delegate an audit, give the subagent this bar
+instead of a stricter one of your own, such as "only risky code".
 
 ## When to skip
 
