@@ -90,8 +90,23 @@ Use XState rather than hand-rolled reducers or other state libraries:
   ids cannot contain dots; keep them camelCase. Wire protocol message types
   are not machine events and keep their own names.
 - Export actor ids as constants when transitions or tests refer to them.
-- Test transitions without the UI: start the machine with `createActor`, send
-  events, and assert with `waitFor` and `snapshot.matches`.
+- Test transitions without the UI, following Stately's
+  [testing](https://stately.ai/docs/testing) and
+  [graph](https://stately.ai/docs/graph) docs:
+  - Write example tests as arrange, act, assert: start the machine with
+    `createActor`, send events, and assert with `waitFor`, `snapshot.matches`
+    and the context. Mock actions with `vi.fn()` and actors with a fake
+    `fromPromise`, supplied through `setup()` or `.provide()`.
+  - For a machine with guards or branches, also generate paths with
+    `createTestModel` from `xstate/graph` (part of `xstate`; the separate
+    `@xstate/test` and `@xstate/graph` packages are deprecated). Run
+    `getShortestPaths()` through `path.test({ events, states })`, bound the
+    traversal with `limit`, `stopWhen` or `toState`, give payload events
+    explicit `events` values, and use `getSimplePaths()` only where full
+    coverage matters.
+  - A state entered and left through `always` in one step never shows in a
+    snapshot. Test it through the inspection API, or use `after: { 0: ... }`
+    so it emits one.
 - In React, use `@xstate/react` and expose the actor through small selector
   hooks (`useFlowSelector`, `useActiveStep`) instead of passing snapshots
   down.
