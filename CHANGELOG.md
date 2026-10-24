@@ -1,5 +1,15 @@
 # Changelog
 
+## [4.7.0](https://github.com/rphlmr/claude-config/compare/v4.6.0...v4.7.0) (2026-10-24)
+
+
+### Features
+
+* ✨ count every unit with phases in state machine audits, whatever its size or bugs, flag machines that only mirror status, and name the skip reason for any unit called fine, with an eval ([fa7b6bf](https://github.com/rphlmr/claude-config/commit/fa7b6bfa540e1330ed1963a25189309eac7a50e4))
+* ✨ draw Scannable visuals in calm neutral and pastel colors, with color only where it carries meaning ([a0a91a1](https://github.com/rphlmr/claude-config/commit/a0a91a1a8125fdeb68e71a18b6a920e902c94b8a))
+* ✨ make Scannable replies lead with the verdict, keep everything in one reply with linked tables for findings and plans, and draw architecture as an inline visual ([98d1136](https://github.com/rphlmr/claude-config/commit/98d11364ddf6cb7609bf033c9f28b2ccd02d8268))
+* ✨ pre-approve XState, store states as enums not booleans, keep test helpers out of src, follow the React Router docs, write plain UI copy, drop the invariant exception for inline comments, and tighten devrel article wording ([6895fa6](https://github.com/rphlmr/claude-config/commit/6895fa678af855a83514e756d33eae7ecd740056))
+
 ## [4.6.0](https://github.com/rphlmr/claude-config/compare/v4.5.0...v4.6.0) (2026-10-23)
 
 
