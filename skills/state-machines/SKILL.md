@@ -54,8 +54,14 @@ Findings that "When to skip" covers keep their impact rank.
 
 ## When to skip
 
-Skip a machine for CRUD forms, stateless transforms, and single-flag toggles,
-where it adds ceremony without removing risk.
+Skip a machine for units with no transitions, where every event is handled
+the same way whatever happened before: a toggle, a field value, a settings
+store that sets and notifies, a stateless transform. To tell, ask: can this
+event arrive at a moment when it must be refused or handled differently? If
+never, the unit is not a state machine, and a machine adds ceremony without
+removing risk. A single request's pending and error states are not transitions
+of their own: leave them to the framework, below, or to one status value where
+no framework owns the request, as in a CRUD form.
 
 Skip it for data loading and mutations that the framework or a data library
 already owns, such as React Router loaders, actions, and fetchers, or a query
