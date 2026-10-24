@@ -66,16 +66,20 @@ configuration take precedence. Do not reformat unrelated code.
 
 ## Comments and Docs
 
-- Never write an inline comment that explains code, not even for an
-  invariant. Never narrate what the product does, why the UI looks the way it
-  does, or how a library behaves (`// A temporary copy: edits stay in memory
-  until ...`, `{/* Phones show "Run" alone ... */}`). Say it with a name, a
-  type, or a test, or give the reason in the reply or the commit message.
-  Step header comments, below, are the only inline comments.
+- Write two kinds of inline comment only: a step header (below), and a
+  short reason the code cannot show, such as a browser quirk, a security
+  choice, or a non-obvious invariant. First try to make the code say it,
+  with a clearer name, an extracted function, a type, or a test. A reason
+  that needs more than two lines points at code to simplify.
+- Never narrate what the code does, what the product does, or why the UI
+  looks the way it does (`// A temporary copy: edits stay in memory
+  until ...`, `{/* Phones show "Run" alone ... */}`).
 - Keep a comment directly above the code it describes, with a blank line
   before it when it starts a new logical step.
 - In a long function made of distinct steps, open each step with a short
   header comment naming it (`Serve public files`, `Add logger middleware`).
+  A header names the step and stops: `Start the loader machine`, not
+  `Start the loader machine with the views and host events`.
 - Give every exported function, type, and service method a doc comment unless
   its name and signature already say everything (`getToday`). Give a private
   function one only when its logic is hard to follow from the code.
