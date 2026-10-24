@@ -1,5 +1,12 @@
 # Changelog
 
+## [4.9.0](https://github.com/rphlmr/claude-config/compare/v4.8.0...v4.9.0) (2026-10-24)
+
+
+### Features
+
+* ✨ skip state machines only for units with no transitions, tested by asking whether an event can ever be refused or handled differently, with an eval ([71899ba](https://github.com/rphlmr/claude-config/commit/71899bac4a7bc729308a91f1f09e44e101d4f6fe))
+
 ## [4.8.0](https://github.com/rphlmr/claude-config/compare/v4.7.0...v4.8.0) (2026-10-24)
 
 
