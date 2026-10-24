@@ -68,9 +68,12 @@ already owns, such as React Router loaders, actions, and fetchers, or a query
 library the project uses. Their pending, error, and revalidation states
 already model the request lifecycle, so fix flag clusters around a request by
 moving it into the loader or action. When a flow around them still needs a
-machine, such as a multi-step wizard, the machine drives the steps and submits
-through the framework (`fetcher.submit`, `useSubmit`) instead of fetching in
-its own actors.
+machine, such as a multi-step wizard, the machine drives the steps and only
+declares a save actor. The component provides it with the framework's submit
+(`fetcher.submit`, `useSubmit`), so the machine never knows the framework.
+When the machine needs the save's outcome (its data, or success vs failure)
+and the framework's submit cannot return it, the component provides a direct
+call to the service instead.
 
 ## TypeScript
 

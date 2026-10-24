@@ -130,6 +130,7 @@ exclusion patterns assume the clone directory is named `claude-config`.
 │   ├── architecture.md
 │   ├── code-style.md
 │   ├── file-naming.md
+│   ├── react-router.md
 │   ├── react.md
 │   └── typescript.md
 ├── output-styles/
@@ -252,11 +253,11 @@ The global instructions and agent prompts follow the Opus 5.5 prompting guide:
   "double-check your work" steps, which cause over-verification on Opus 5.x.
 - `CLAUDE.md` holds only what every session needs and stays under the 200-line
   target from the official memory documentation, counted with lines wrapped at
-  80 columns. Code style, file naming, architecture, TypeScript and React
-  rules live in `rules/` with `paths:` frontmatter, so they load only when
-  Claude reads matching files (code style and kebab-case file naming on the
-  source files of common languages), and the state machine guidance is a
-  skill.
+  80 columns. Code style, file naming, architecture, TypeScript, React, and
+  React Router rules live in `rules/` with `paths:` frontmatter, so they load
+  only when Claude reads matching files (code style and kebab-case file naming
+  on the source files of common languages), and the state machine guidance is
+  a skill.
 
 ### State machine preference
 
@@ -271,7 +272,9 @@ does a machine that only mirrors status while the code decides. Each one ranks
 medium at least, so it lands in the default fix set instead of the lows. A
 unit is called fine only with the skip reason that covers it. Data loading and
 mutations stay with the framework, such as React Router loaders and actions,
-instead of a machine.
+instead of a machine. A machine that drives a save only declares it, and the
+component provides the framework's submit, or a direct call when the machine
+needs the save's outcome.
 
 ### Apple Human Interface Guidelines
 
