@@ -1,5 +1,12 @@
 # Changelog
 
+## [4.10.0](https://github.com/rphlmr/claude-config/compare/v4.9.0...v4.10.0) (2026-10-24)
+
+
+### Features
+
+* ✨ test XState machines the way Stately's docs describe, with arrange-act-assert example tests, generated paths from xstate/graph for machines with guards or branches, and inspection for always states ([349dcc5](https://github.com/rphlmr/claude-config/commit/349dcc5f8e149fa81a0f69ded978fee724363c87))
+
 ## [4.9.0](https://github.com/rphlmr/claude-config/compare/v4.8.0...v4.9.0) (2026-10-24)
 
 
