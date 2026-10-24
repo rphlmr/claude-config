@@ -46,6 +46,12 @@ guards, and effects. Call a unit fine only when "When to skip" covers it, and
 name that reason. When you delegate an audit, give the subagent this bar
 instead of a stricter one of your own, such as "only risky code".
 
+Rank each implicit machine, and each machine the code decides around, as a
+medium finding at least, even with no proven bug, so it lands in the default
+fix set. The missing machine is the risk, not only the bug it hides. This
+floor overrides an impact-only ranking, such as the `trusted-review` skill's.
+Findings that "When to skip" covers keep their impact rank.
+
 ## When to skip
 
 Skip a machine for CRUD forms, stateless transforms, and single-flag toggles,
