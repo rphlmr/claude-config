@@ -42,15 +42,16 @@ scannable, so they can decide from it without rereading.
 
 ## Visuals
 
-- For architecture, flows, and state transitions, show an inline HTML or SVG
-  visual when the host can render one: boxes grouped by where they run, one
-  picture per question, then the linked table.
+- For architecture, flows, and state transitions, draw the visual with the
+  visualize widget tool (`show_widget`) whenever it is in the tool list:
+  boxes grouped by where they run, one picture per question, then the linked
+  table.
 - Keep visuals calm: neutral grays for structure, and soft pastel fills only
   where color carries meaning, such as one hue per group or state. No
   saturated or neon colors, and text stays readable in light and dark themes.
-- Where no visual can render, such as a terminal or a file report, use a text
-  diagram of five lines or fewer that reads in one direction. Never Mermaid in
-  chat.
+- Only when no visual tool exists, such as in a plain terminal or a file
+  report, write the flow as one line of text (`request → runner → result`).
+  Never box-drawing art or Mermaid.
 
 ## Reasons
 
