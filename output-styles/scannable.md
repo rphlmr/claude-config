@@ -45,6 +45,9 @@ scannable, so they can decide from it without rereading.
 - For architecture, flows, and state transitions, show an inline HTML or SVG
   visual when the host can render one: boxes grouped by where they run, one
   picture per question, then the linked table.
+- Keep visuals calm: neutral grays for structure, and soft pastel fills only
+  where color carries meaning, such as one hue per group or state. No
+  saturated or neon colors, and text stays readable in light and dark themes.
 - Where no visual can render, such as a terminal or a file report, use a text
   diagram of five lines or fewer that reads in one direction. Never Mermaid in
   chat.

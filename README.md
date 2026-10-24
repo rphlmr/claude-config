@@ -447,8 +447,9 @@ than `CLAUDE.md`. It applies only to the main conversation, never to subagents.
 
 `scannable.md` holds the reply formatting rules for a reader with ADHD: the
 verdict first, everything in one reply, linked tables for findings and plans,
-and an inline visual for architecture and flows. It keeps Claude Code's coding
-instructions (`keep-coding-instructions: true`).
+and an inline visual in calm neutral and pastel colors for architecture and
+flows. It keeps Claude Code's coding instructions
+(`keep-coding-instructions: true`).
 Select it in the desktop app settings, or with `/config` in a `claude`
 terminal. Rules that also cover subagents, commits, and documents, such as the
 em dash ban, stay in `CLAUDE.md`.
