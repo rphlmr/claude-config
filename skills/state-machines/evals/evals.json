@@ -8,12 +8,6 @@
       "files": ["evals/files/CheckoutWizard.tsx"]
     },
     {
-      "id": 2,
-      "prompt": "quick review of ContactForm.tsx before I merge?",
-      "expected_output": "Ordinary review feedback, such as the missing error state when sending fails. No state machine is recommended, because this is a simple form with a single submitting flag.",
-      "files": ["evals/files/ContactForm.tsx"]
-    },
-    {
       "id": 3,
       "prompt": "PlayerModel.swift sometimes reports playing and buffering at the same time. How should I restructure it?",
       "expected_output": "Recommends an in-house state machine with no third-party library: State and Event enums, one pure `(State, Event) -> (State, [Effect])` transition function that leaves the state unchanged for unhandled events, and an `@Observable @MainActor` store that applies events through `send(_:)` and runs effects in Tasks. It explains how the current flags allow the reported combination and notes that the restructure is a design change needing approval.",
