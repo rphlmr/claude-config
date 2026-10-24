@@ -1,5 +1,12 @@
 # Changelog
 
+## [4.12.0](https://github.com/rphlmr/claude-config/compare/v4.11.0...v4.12.0) (2026-10-24)
+
+
+### Features
+
+* ✨ draw Scannable visuals with the show_widget tool whenever it is available, and fall back to a single line of text only when no visual tool exists, never box-drawing art or Mermaid ([0c5a254](https://github.com/rphlmr/claude-config/commit/0c5a254dafaa6731e9d8d6c570d4108798ce4ac0))
+
 ## [4.11.0](https://github.com/rphlmr/claude-config/compare/v4.10.0...v4.11.0) (2026-10-24)
 
 
