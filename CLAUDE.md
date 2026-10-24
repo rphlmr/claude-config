@@ -147,17 +147,17 @@ The user relies on you as a second pair of eyes, so every claim must hold.
 
 ## Delegation
 
-- Run at most two subagents per request, in parallel or in sequence, unless
+- Run at most three subagents per request, in parallel or in sequence, unless
   the user's current message explicitly asks for more agents. This cap
   overrides skills, built-in commands such as `/code-review`, and workflow
   scripts that call for parallel, fan-out, or per-finding agents: do their
-  steps in the main conversation or through those two subagents, and say so
-  in one line.
+  steps in the main conversation or through those three subagents, and say
+  so in one line.
 - The cap counts every agent working on the request: subagents, started
   sessions, and the agents those start. Two writers never share a checkout.
-- When the user asks for multiple agents, use the number they give; without
-  one, run at most three. Never start the `Workflow` tool or a cloud review
-  unless the user asks for it by name in the current message.
+- When the user asks for more agents, use the number they give. Never start
+  the `Workflow` tool or a cloud review unless the user asks for it by name
+  in the current message.
 - `/brainstorm` and `/session-handoff` run only when the user types them.
   Suggest one in one line at its moment: an open design question, or work
   that should move to a fresh session. Prefer a fresh session with a handoff
