@@ -263,13 +263,14 @@ The global instructions and agent prompts follow the Opus 5.5 prompting guide:
 The `state-machines` skill makes explicit state machines Claude's first choice
 for states, workflows, and sequences: XState for TypeScript, and an in-house
 XState-style machine with no third-party library for SwiftUI. `CLAUDE.md`
-points review, planning, and implementation work at the skill. Claude builds
-with XState directly where the project already uses it, and asks once before
-adding it as a new dependency. In audits, every unit that moves through
-phases counts, whatever its size and even with no known bug, and so does a
-machine that only mirrors status while the code decides. A unit is called fine
-only with the skip reason that covers it. Data loading and mutations stay with
-the framework, such as React Router loaders and actions, instead of a machine.
+points review, planning, and implementation work at the skill. XState is
+pre-approved: Claude builds with it directly and adds the dependency without
+asking where the project doesn't have it yet. In audits, every unit that moves
+through phases counts, whatever its size and even with no known bug, and so
+does a machine that only mirrors status while the code decides. A unit is
+called fine only with the skip reason that covers it. Data loading and
+mutations stay with the framework, such as React Router loaders and actions,
+instead of a machine.
 
 ### Apple Human Interface Guidelines
 

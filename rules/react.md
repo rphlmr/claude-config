@@ -15,6 +15,13 @@ paths:
   them, such as React Router loaders, actions, and fetchers, and read pending
   and error state from `useNavigation`, `fetcher.state`, and the error
   boundary. Do not fetch in effects, client stores, or state machines there.
+- Build React Router code from the reactrouter.com page that covers it
+  (routing, data loading, actions, fetchers, pending UI, revalidation), not
+  from memory or the router's source, and name that page when explaining a
+  choice.
+- Write UI text plain and short: name the concrete action in everyday words
+  ("Allow AI edits?"), not an internal concept ("Trust Shared transfers?"),
+  with one idea per line.
 - Preserve accessibility and loading, empty, error, and disabled states.
 - Match the existing component, state-management, and styling architecture.
 - For visual changes, render and inspect the result when the environment

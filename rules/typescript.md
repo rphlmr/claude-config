@@ -18,6 +18,10 @@ paths:
   so the narrow inferred type survives.
 - Derive types from their source instead of restating them: `z.output<typeof
   RuleSchema>`, `ReturnType<typeof createFlowMachine>`, indexed access types.
+- Store a category or state as a text enum (`topic: "playground" |
+  "bug_repro"`), never as a boolean flag, even when only one value is
+  special, in schemas, stored records, and API contracts. A checkbox in the UI
+  can still set it.
 - Give a value that drives logic a literal union or key, and map it to display
   text in one place (`saveStateLabels[state]`). Never compare, match, or parse
   user-facing text or error messages to decide behavior.

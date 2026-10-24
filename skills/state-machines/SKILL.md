@@ -93,7 +93,7 @@ Recommend an in-house machine modeled on XState, with no third-party library:
 
 ## Approval
 
-When the project already uses XState, or the SwiftUI project already has its
-machine, build with it directly. When adding XState would be a new production
-dependency, ask once through `AskUserQuestion`, with the machine as the
-recommended option, unless the request or approved plan already includes it.
+XState is pre-approved. Build the machine with it directly, and add it as a
+dependency where the project doesn't have it yet, new projects included,
+instead of asking first or leaving the machine as a sketch in a doc. In
+SwiftUI, build the in-house machine directly.

@@ -35,6 +35,11 @@ shown. Their text wins over this skill.
   on the route". Write instructions, not praise for the feature.
 - Define a term once, in bold, in one plain sentence, then use it. A small
   analogy is fine when it is exact ("in either order, like a + b = b + a").
+- Say what happens to the reader's code or data ("deletes `full_name` and its
+  data"), not which SQL or API call runs ("writes `DROP COLUMN`"). Code goes
+  in a block, not inside a sentence.
+- Leave out edge cases that distract from the lesson. Keep one only when the
+  reader needs it to act.
 - Make abstract cases concrete with a tiny scenario and named people ("Alice
   and Bob each open a branch") when the case is hard to picture. A short
   rewrite doesn't need one.
@@ -55,6 +60,7 @@ shown. Their text wins over this skill.
 
 - Every example runs and type-checks against the stated version. Give the
   real install commands, for every package manager the project supports.
+- Put a code or output block right after the sentence that introduces it.
 - Prefer before/after pairs with the removed and added lines marked.
 - Keep one small running example across the article instead of a new one
   per section.
@@ -62,6 +68,8 @@ shown. Their text wins over this skill.
 ## Sentences
 
 - Short sentences, plain words, concrete nouns. One idea per paragraph.
+- Use the reader's words and the tool's own wording: when the prompt says
+  "renamed or created", so does the article.
 - No AI tells: em dashes, "dive into", "leverage", "seamless", "robust",
   "powerful", "it's worth noting", "let's explore", question headings,
   adjective triplets, closing recaps.

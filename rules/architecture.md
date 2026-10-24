@@ -24,3 +24,7 @@ Follow the project's existing structure. These principles shape new code.
   imports. Reach the host through a ports type of injected functions, such as
   `getLanguage`.
 - Accept an `AbortSignal` in service functions that do I/O, and pass it on.
+- Keep test helpers, fakes, and fixture data in a `test/` folder at the
+  package root that mirrors the `src` path, never in `src/`, where they read
+  like package API. Test files stay next to the code they test, and build
+  configs leave `test/` out of the output.
