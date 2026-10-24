@@ -75,8 +75,14 @@ Use XState rather than hand-rolled reducers or other state libraries:
 - Keep I/O out of the machine. Declare each actor as a placeholder that throws
   until the caller injects the real one with `.provide()`, or build the setup
   in a factory that takes typed dependencies (`setupFlowMachine(options)`).
-- Name events by domain, subject, and verb with dots: `editor.file.open`,
-  `beneficiary.add`, `prices.refresh`.
+- Name events by domain, subject, and verb in `dot.case`: `editor.file.open`,
+  `beneficiary.add`, `prices.refresh`. Stately strongly encourages
+  `dot.case` for XState v5 events, since it enables wildcards like
+  `editor.*`
+  ([What's in a name?](https://stately.ai/blog/2024-01-23-state-machines-whats-in-a-name#what-style-should-that-name-be-in)).
+  Rename UPPER_CASE events in a machine you touch. State names and machine
+  ids cannot contain dots; keep them camelCase. Wire protocol message types
+  are not machine events and keep their own names.
 - Export actor ids as constants when transitions or tests refer to them.
 - Test transitions without the UI: start the machine with `createActor`, send
   events, and assert with `waitFor` and `snapshot.matches`.
